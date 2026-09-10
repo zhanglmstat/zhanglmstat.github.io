@@ -1,178 +1,264 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>【姓名】 | 个人学术主页</title>
-<style>
-  :root{
-    --primary:#1a5276;
-    --accent:#2e86c1;
-    --text:#2c3e50;
-    --muted:#7f8c8d;
-    --bg:#ffffff;
-    --light:#f4f7f9;
-    --border:#e5e8e8;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:var(--bg);line-height:1.7;}
-  a{color:var(--accent);text-decoration:none;}
-  a:hover{text-decoration:underline;}
-
-  /* ===== 顶部导航 ===== */
-  nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);}
-  nav .wrap{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;}
-  nav .logo{font-weight:700;color:var(--primary);font-size:1.05rem;}
-  nav ul{display:flex;gap:22px;list-style:none;font-size:.95rem;}
-  nav ul a{color:var(--text);}
-  @media(max-width:640px){nav ul{gap:12px;font-size:.85rem;}}
-
-  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
-
-  /* ===== 首屏 ===== */
-  header.hero{padding:60px 0 40px;}
-  .hero-flex{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap;}
-  .avatar{width:170px;height:170px;border-radius:12px;object-fit:cover;border:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.08);flex-shrink:0;}
-  .hero h1{font-size:1.9rem;color:var(--primary);margin-bottom:6px;}
-  .hero .title{font-size:1.05rem;color:var(--muted);margin-bottom:14px;}
-  .hero .bio{max-width:640px;margin-bottom:14px;}
-  .hero .links a{margin-right:16px;display:inline-flex;align-items:center;gap:4px;}
-
-  /* ===== 统计条 ===== */
-  .stats{display:flex;gap:0;margin:28px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden;text-align:center;background:var(--light);}
-  .stats div{flex:1;padding:16px 8px;border-right:1px solid var(--border);}
-  .stats div:last-child{border-right:none;}
-  .stats .num{font-size:1.5rem;font-weight:700;color:var(--primary);}
-  .stats .lab{font-size:.85rem;color:var(--muted);}
-
-  /* ===== 章节 ===== */
-  section{padding:34px 0;border-top:1px solid var(--border);}
-  section h2{font-size:1.35rem;color:var(--primary);margin-bottom:18px;padding-left:12px;border-left:4px solid var(--accent);}
-  .tags{display:flex;flex-wrap:wrap;gap:10px;}
-  .tag{background:var(--light);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.9rem;color:var(--primary);}
-
-  /* ===== 论文条目 ===== */
-  .pub{margin-bottom:20px;padding-bottom:16px;border-bottom:1px dashed var(--border);}
-  .pub:last-child{border-bottom:none;}
-  .pub .pt{font-weight:600;color:var(--text);}
-  .pub .pa{font-size:.93rem;color:var(--muted);}
-  .pub .pv{font-size:.93rem;font-style:italic;color:var(--accent);}
-  .pub .badge{display:inline-block;font-size:.75rem;background:#fdf2e9;color:#ca6f1e;border-radius:4px;padding:1px 7px;margin-right:6px;vertical-align:middle;}
-  .pub .pl{font-size:.85rem;margin-top:4px;}
-  .pub .pl a{margin-right:12px;}
-
-  ul.news{list-style:none;}
-  ul.news li{padding:6px 0;display:flex;gap:14px;}
-  ul.news .d{color:var(--muted);font-size:.88rem;white-space:nowrap;font-variant-numeric:tabular-nums;}
-
-  footer{padding:30px 0 46px;text-align:center;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border);}
-</style>
-<base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章礼明 (Liming Zhang) - 安徽大学</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #0366d6;
+            --text-color: #333;
+            --light-text: #666;
+            --bg-color: #f8f9fa;
+            --section-border: #e1e4e8;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+        }
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            color: var(--primary-color);
+        }
+        header .subtitle {
+            font-size: 1.1em;
+            color: var(--light-text);
+            margin-bottom: 5px;
+        }
+        header .email {
+            font-family: monospace;
+            color: var(--accent-color);
+        }
+        h2 {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--section-border);
+            padding-bottom: 5px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .intro {
+            font-size: 1.05em;
+            text-align: justify;
+        }
+        .item {
+            margin-bottom: 15px;
+        }
+        .item-meta {
+            font-size: 0.9em;
+            color: var(--light-text);
+            margin-bottom: 5px;
+        }
+        .journal-name {
+            font-style: italic;
+        }
+        .highlight {
+            font-weight: 600;
+        }
+        .student-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .student-list li {
+            padding-left: 15px;
+            position: relative;
+        }
+        .student-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #999;
+            border-top: 1px solid var(--section-border);
+            padding-top: 20px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            header h1 { font-size: 1.8em; }
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-  <div class="wrap">
-    <span class="logo">【姓名】</span>
-    <ul>
-      <li><a href="#about">关于我</a></li>
-      <li><a href="#research">研究方向</a></li>
-      <li><a href="#publications">发表论文</a></li>
-      <li><a href="#news">近期动态</a></li>
-      <li><a href="#awards">荣誉奖项</a></li>
-    </ul>
-  </div>
-</nav>
+<div class="container">
+    <header>
+        <h1>张黎明 (Liming Zhang)</h1>
+        <div class="subtitle">副教授，硕士生导师</div>
+        <div class="subtitle">安徽大学 大数据与统计学院</div>
+        <div class="email">Email: zhanglmmath [at] gmail.com</div>
+    </header>
 
-<header class="hero">
-  <div class="wrap hero-flex">
-    <!-- 把 photo.jpg 换成你的照片文件名，放到仓库同目录 -->
-    <img class="avatar" src="photo.jpg" alt="照片">
-    <div>
-      <h1>【姓名】</h1>
-      <p class="title">【职称/身份，如：副教授 / 博士研究生】 · 【单位全称】</p>
-      <p class="bio">
-        【一句话个人简介：你的研究领域、所在机构、研究兴趣概述。例如：本人主要从事……方向的研究，
-        关注……问题，相关成果发表于……等期刊/会议。】
-      </p>
-      <p class="links">
-        <a href="https://scholar.google.com/citations?user=EqtM1FEAAAAJ&hl=zh-CN" target="_blank">📚 Google Scholar</a>
-        <!-- 按需添加/删除：
-        <a href="mailto:you@example.com">✉️ 邮箱</a>
-        <a href="https://github.com/zhanglmmath" target="_blank">💻 GitHub</a>
-        <a href="CV.pdf" target="_blank">📄 个人简历</a>
-        -->
-      </p>
+    <section>
+        <h2>个人简介</h2>
+        <p class="intro">
+            章礼明，男，1988年10月生，安徽枞阳人，中共党员，现为安徽大学大数据与统计学院副教授、硕士研究生导师。2021年华东师范大学统计学专业毕业，获理学博士学位。2019年9月至2021年9月受国家留学基金委资助，赴加拿大滑铁卢大学统计与精算科学系进行博士生联合培养。主要研究方向为保险精算、随机控制与金融数学。主持国家自然科学基金青年项目、安徽省哲学社会科学规划青年项目、安徽省高校自然科学研究重点项目等科研项目；参与国家社会科学基金一般项目及多项国家自然科学基金面上项目。在 Insurance: Mathematics and Economics、Scandinavian Actuarial Journal、International Review of Financial Analysis、Journal of Computational and Applied Mathematics 等国际权威期刊发表学术论文十多篇。
+        </p>
+    </section>
+
+    <section>
+        <h2>研究兴趣</h2>
+        <p>保险精算、随机控制与金融数学 (Stochastic control in insurance, finance, and economics)</p>
+    </section>
+
+    <section>
+        <h2>教育背景</h2>
+        <div class="item">
+            <h3>博士，统计学（精算/金融数学方向）</h3>
+            <div class="item-meta">华东师范大学，中国 | 导师：王荣明 教授、韦家勤 教授</div>
+        </div>
+        <div class="item">
+            <h3>联合培养博士，精算学</h3>
+            <div class="item-meta">滑铁卢大学，加拿大 | 导师：李斌 教授 | 2019.09 - 2021.09（国家留学基金委资助）</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>工作经历</h2>
+        <div class="item">
+            <h3>副教授</h3>
+            <div class="item-meta">安徽大学 大数据与统计学院 | 2026.01 - 至今</div>
+        </div>
+        <div class="item">
+            <h3>助理教授（预聘制）</h3>
+            <div class="item-meta">安徽大学 大数据与统计学院 | 2022.07 - 2025.12</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>科研项目</h2>
+        <ul>
+            <li><span class="highlight">国家自然科学基金青年项目</span> (12201006)：α-最大期望效用最大化问题及其在投资和再保险中的应用，主持人，2023.01-2025.12。</li>
+            <li><span class="highlight">安徽省哲学社会科学规划青年项目</span> (AHSKYQ2025D33)：基于宏观审慎监管和机器学习的银行盈利性与系统性风险平衡优化路径研究，主持人，2026.01-2027.12。</li>
+            <li><span class="highlight">安徽省高校自然科学研究重点项目</span> (2024AH050083)：α-最大均值-方差最大化问题及其在投资和再保险中的应用，主持人，2023.01-2027.06。</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>代表性论文</h2>
+        <p style="font-size: 0.9em; color: #666;">(* 通讯作者, † 指导的学生)</p>
+        <ol>
+            <li class="item">
+                Yu Yuan, Ning Wang, <span class="highlight">Liming Zhang*</span>, 2026. Equilibrium reinsurance price under α-maxmin mean-variance criterion: a view of demand and supply. <span class="journal-name">ASTIN Bulletin</span>, forthcoming.
+            </li>
+            <li class="item">
+                <span class="highlight">Liming Zhang</span>, Ping Chen, Qian Zhao*, 2026. Optimal Investment-benefit for a Collective Defined Contribution Plan with Guaranteed Replacement Ratio. <span class="journal-name">Scandinavian Actuarial Journal</span>, 2026(6), 584-608.
+            </li>
+            <li class="item">
+                Hongping Wu*, <span class="highlight">Liming Zhang*</span>, Qian Zhao. 2025. Alpha-robust reinsurance-investment strategy with negative risk dependence between two markets. <span class="journal-name">Journal of Computational and Applied Mathematics</span>, 463, 116501.
+            </li>
+            <li class="item">
+                <span class="highlight">Liming Zhang</span>, Hongping Wu*, Ning Wang*, Qian Zhao. 2024. Equilibrium reinsurance strategies for catastrophe and secondary claims under α-maxmin mean-variance criterion. <span class="journal-name">International Review of Financial Analysis</span>, 96, Part B: 103729.
+            </li>
+            <li class="item">
+                Lin Xu*, Linlin Wang, Hao Wang, <span class="highlight">Liming Zhang</span>. 2024. Optimal investment game for two regulated players with regime switching. <span class="journal-name">AIMS Mathematics</span>, 9(12): 34674-34704.
+            </li>
+            <li class="item">
+                <span class="highlight">Liming Zhang</span>, Bin Li*, 2021. Optimal Reinsurance under the α-Maxmin Mean-Variance Criterion. <span class="journal-name">Insurance: Mathematics and Economics</span>, 101, 225-239.
+            </li>
+            <li class="item">
+                <span class="highlight">Liming Zhang</span>, Rongming Wang, Jiaqin Wei*, 2022. Open-Loop Equilibrium Mean-Variance Reinsurance, New Business and Investment Strategies with Constraints. <span class="journal-name">Journal of Industrial and Management Optimization</span>, 18(6): 3897-3927.
+            </li>
+            <li class="item">
+                <span class="highlight">Liming Zhang</span>, Rongming Wang, Jiaqin Wei*, 2020. Optimal mean-variance reinsurance and investment strategy with constraints in a non-Markovian regime-switching model. <span class="journal-name">Statistical Theory and Related Fields</span>, 4(2): 214-227.
+            </li>
+            <li class="item">
+                Lin Xu*, <span class="highlight">Liming Zhang</span>, Dingjun Yao, 2017. Optimal investment and reinsurance for an insurer under markov-modulated financial market. <span class="journal-name">Insurance: Mathematics and Economics</span>, 74, 7-19.
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>教学经历</h2>
+        <ul>
+            <li><span class="highlight">数学分析</span>：2023年秋、2024年秋、2025年秋、2026年秋</li>
+            <li><span class="highlight">统计模型设计</span>：2023年春、2024年春、2025年春、2026年春</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>荣誉与奖励</h2>
+        <ul>
+            <li>2024年获安徽大学年度考核优秀（师德和年度考核）。</li>
+            <li>2022年12月，博士毕业论文“若干均值-方差最优投资及再保险问题的研究”获选2021-2022学年华东师范大学优秀博士学位论文（前10%）。</li>
+            <li>2021年11月，荣获华东师范大学2020-2021年度研究生（学术类）分众奖学金。</li>
+            <li>2017年11月，荣获“2017年全国金融数学研究生论坛”优秀论文奖。</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>指导学生</h2>
+        
+        <h3>硕士研究生</h3>
+        <ul class="student-list">
+            <li><span class="highlight">2026级（2029届）：</span>包浩燃、梁慧慧（控制理论）；黄玉莹、宋佳（应用统计专硕）。</li>
+            <li><span class="highlight">2025级（2028届）：</span>高杰。</li>
+            <li><span class="highlight">2024级（2027届）：</span>冯哲、张梦晴。</li>
+            <li><span class="highlight">2023级（2026届）：</span>王雅玲（毕业去向：长鑫存储）。</li>
+            <li><span class="highlight">2022级（2025届）：</span>吴红平（南京师范大学攻读博士）、彭定英（安徽建工）、曾笑（奇瑞）。</li>
+        </ul>
+
+        <h3>指导的学生项目</h3>
+        <ul>
+            <li>2025年全国大学生数学建模竞赛安徽省赛区二等奖指导教师（孙斯芹）。</li>
+            <li>2024年大创计划：指导学生获得省级立项（基于第三支柱模型分析的中加经验共融优化中国养老金管理，负责人：陶健）。</li>
+            <li>2024年大创计划：指导学生获得校级立项（收入不平等对创业者创业及地区企业发展的影响，负责人：童杰；具有动态模糊态度的均值-方差健康险的最优投资应用与研究，负责人：黄信超）。</li>
+        </ul>
+    </section>
+
+    <div class="footer">
+        © 2026 张黎明 (Liming Zhang). Powered by GitHub Pages.
     </div>
-  </div>
-
-  <div class="wrap">
-    <div class="stats">
-      <div><div class="num">【引用总数】</div><div class="lab">总被引次数</div></div>
-      <div><div class="num">【h指数】</div><div class="lab">h-index</div></div>
-      <div><div class="num">【i10指数】</div><div class="lab">i10-index</div></div>
-    </div>
-  </div>
-</header>
-
-<div class="wrap">
-
-  <section id="research">
-    <h2>研究方向</h2>
-    <div class="tags">
-      <span class="tag">【方向一】</span>
-      <span class="tag">【方向二】</span>
-      <span class="tag">【方向三】</span>
-    </div>
-  </section>
-
-  <section id="publications">
-    <h2>发表论文</h2>
-    <p style="color:var(--muted);font-size:.9rem;margin-bottom:16px;">（按时间倒序排列，* 表示通讯作者）</p>
-
-    <!-- ===== 论文条目模板：复制此块添加更多论文 ===== -->
-    <div class="pub">
-      <p class="pt"><span class="badge">期刊/会议</span>论文标题（英文请保留原文）</p>
-      <p class="pa">作者1，作者2，<strong>【姓名】</strong>*</p>
-      <p class="pv">期刊或会议名称, 年份, 卷(期): 页码.</p>
-      <p class="pl">
-        <a href="#" target="_blank">[PDF]</a>
-        <a href="#" target="_blank">[DOI]</a>
-        <a href="#" target="_blank">[BibTeX]</a>
-      </p>
-    </div>
-    <!-- ===== 模板结束 ===== -->
-
-    <div class="pub">
-      <p class="pt"><span class="badge">期刊/会议</span>第二篇论文标题</p>
-      <p class="pa">作者1，<strong>【姓名】</strong></p>
-      <p class="pv">期刊或会议名称, 年份.</p>
-      <p class="pl"><a href="#">[PDF]</a><a href="#">[DOI]</a></p>
-    </div>
-
-  </section>
-
-  <section id="news">
-    <h2>近期动态</h2>
-    <ul class="news">
-      <li><span class="d">2026-0X</span><span>【动态内容：如论文被 XX 会议接收 / 参加 XX 学术会议报告】</span></li>
-      <li><span class="d">2026-0X</span><span>【动态内容】</span></li>
-    </ul>
-  </section>
-
-  <section id="awards">
-    <h2>荣誉奖项</h2>
-    <ul class="news">
-      <li><span class="d">20XX</span><span>【奖项名称】</span></li>
-    </ul>
-  </section>
-
 </div>
-
-<footer>
-  © 2026 【姓名】 · 由 <a href="https://pages.github.com/" target="_blank">GitHub Pages</a> 托管
-  · 模板生成时间：2026-09
-</footer>
 
 </body>
 </html>
