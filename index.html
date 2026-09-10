@@ -1,168 +1,1240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liming Zhang</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #0366d6;
-            --text-color: #333;
-            --light-text: #666;
-            --bg-color: #f8f9fa;
-            --section-border: #e1e4e8;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 20px;
-        }
-        .profile-photo {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 3px solid var(--accent-color);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        header h1 {
-            margin: 0 0 10px 0;
-            font-size: 2.2em;
-            color: var(--primary-color);
-        }
-        h2 {
-            font-size: 1.4em;
-            color: var(--primary-color);
-            border-bottom: 1px solid var(--section-border);
-            padding-bottom: 5px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        p {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        ul, ol {
-            margin-top: 5px;
-            margin-bottom: 15px;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        .item {
-            margin-bottom: 15px;
-        }
-        .journal-name {
-            font-style: italic;
-        }
-        .highlight {
-            font-weight: 600;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 0.9em;
-            color: #999;
-            border-top: 1px solid var(--section-border);
-            padding-top: 20px;
-        }
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            .container { padding: 20px; }
-            header h1 { font-size: 1.8em; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liming Zhang — Academic Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #2c3e50;
+    --paper: #f7f4ee;
+    --paper-warm: #f0ebe1;
+    --accent: #8b6f47;
+    --accent-light: #c4a574;
+    --muted: #6b7280;
+    --line: #d9d2c5;
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent-light); color: var(--ink); }
+
+  /* ===== Navigation ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(247, 244, 238, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, padding 0.3s ease;
+  }
+  nav.scrolled {
+    border-bottom-color: var(--line);
+    padding: 0.9rem 3rem;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--accent); font-style: italic; }
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.25s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--ink);
+    margin: 5px 0;
+    transition: 0.3s;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%; right: -10%;
+    width: 60%; height: 140%;
+    background: radial-gradient(ellipse at center, rgba(196, 165, 116, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-formula {
+    position: absolute;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    color: rgba(139, 111, 71, 0.07);
+    font-size: 1.1rem;
+    line-height: 2;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-formula.f1 { top: 15%; left: 5%; transform: rotate(-8deg); }
+  .hero-formula.f2 { bottom: 20%; right: 8%; transform: rotate(5deg); text-align: right; }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-text .eyebrow {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-text .eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-text h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(3rem, 6vw, 4.8rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .hero-text h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .hero-text .subtitle {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    max-width: 520px;
+  }
+  .hero-text .subtitle strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .hero-text .affiliation {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.8rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn-outline:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .hero-photo {
+    position: relative;
+  }
+  .hero-photo .photo-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .hero-photo .photo-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 60px rgba(26, 35, 50, 0.15);
+    pointer-events: none;
+  }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) contrast(1.02);
+    transition: transform 0.6s ease, filter 0.6s ease;
+  }
+  .hero-photo:hover img {
+    transform: scale(1.03);
+    filter: grayscale(0%) contrast(1.05);
+  }
+  .hero-photo .photo-tag {
+    position: absolute;
+    bottom: -1px; right: -1px;
+    background: var(--paper);
+    padding: 0.6rem 1rem;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--line);
+    border-right: none;
+    border-bottom: none;
+  }
+
+  /* ===== Section Common ===== */
+  section {
+    padding: 6rem 3rem;
+    position: relative;
+  }
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 3.5rem;
+  }
+  .section-label {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .section-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+
+  /* ===== About ===== */
+  .about {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+  }
+  .about-text p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.2rem;
+    float: left;
+    line-height: 0.85;
+    padding-right: 0.6rem;
+    padding-top: 0.3rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .about-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .fact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fact-row:first-child { border-top: 1px solid var(--line); }
+  .fact-label {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fact-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: right;
+    max-width: 60%;
+  }
+
+  /* ===== Research ===== */
+  .research-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .research-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 2rem;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .research-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(26, 35, 50, 0.08);
+    border-color: var(--accent-light);
+  }
+  .research-card .card-num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .research-card h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .research-card p {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ===== Publications ===== */
+  .publications {
+    background: var(--paper-warm);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pub-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .pub-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 2rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+    transition: background 0.2s ease;
+  }
+  .pub-item:last-child { border-bottom: none; }
+  .pub-item:hover { background: rgba(255,255,255,0.4); }
+  .pub-year {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+    padding-top: 0.2rem;
+  }
+  .pub-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+  }
+  .pub-info .authors {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.3rem;
+  }
+  .pub-info .authors .me { font-weight: 600; color: var(--ink); }
+  .pub-info .venue {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .pub-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-end;
+  }
+  .pub-tag {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pub-tag.corresponding { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== Blog / Notes ===== */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  .blog-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(26, 35, 50, 0.08);
+  }
+  .blog-card .blog-visual {
+    height: 180px;
+    background: var(--paper-warm);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .blog-card .blog-visual .formula {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--accent);
+    opacity: 0.5;
+    text-align: center;
+    padding: 1rem;
+  }
+  .blog-card .blog-body {
+    padding: 1.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .blog-card .blog-meta {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    display: flex;
+    gap: 1rem;
+  }
+  .blog-card .blog-meta .category { color: var(--accent); }
+  .blog-card h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+  .blog-card p {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+  .blog-card .read-more {
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.3s ease;
+  }
+  .blog-card .read-more:hover { gap: 0.8rem; }
+  .blog-card .read-more::after {
+    content: '\2192';
+    font-size: 1rem;
+  }
+
+  /* ===== Teaching ===== */
+  .teaching {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .teaching-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  .teaching-card {
+    border: 1px solid var(--line);
+    padding: 2rem;
+    position: relative;
+  }
+  .teaching-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 40px; height: 3px;
+    background: var(--accent);
+  }
+  .teaching-card h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .teaching-card .course-code {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .teaching-card .terms {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .teaching-card .terms span {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: 0.78rem;
+  }
+
+  /* ===== Grants ===== */
+  .grants-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .grant-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+  }
+  .grant-period {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    padding-top: 0.2rem;
+  }
+  .grant-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+  }
+  .grant-info .grant-source {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .grant-info .grant-role {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ===== Contact ===== */
+  .contact {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 7rem 3rem;
+  }
+  .contact .section-label { justify-content: center; color: var(--accent-light); }
+  .contact .section-label::before { background: var(--accent-light); }
+  .contact .section-title { color: var(--paper); }
+  .contact .section-title em { color: var(--accent-light); }
+  .contact-desc {
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    color: rgba(247, 244, 238, 0.7);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .contact-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--paper);
+    transition: color 0.3s ease;
+  }
+  .contact-link:hover { color: var(--accent-light); }
+  .contact-link .icon {
+    width: 48px; height: 48px;
+    border: 1px solid rgba(247, 244, 238, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .contact-link:hover .icon {
+    border-color: var(--accent-light);
+    background: rgba(196, 165, 116, 0.1);
+  }
+  .contact-link .icon svg {
+    width: 20px; height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+  .contact-link .label {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .contact-link .value {
+    font-size: 0.9rem;
+    color: rgba(247, 244, 238, 0.6);
+  }
+  .contact-footer {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: rgba(247, 244, 238, 0.35);
+    letter-spacing: 0.08em;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(247, 244, 238, 0.1);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ===== Scroll Reveal ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav.scrolled { padding: 0.75rem 1.5rem; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--paper);
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1.2rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+    .hero-text .eyebrow { justify-content: center; }
+    .hero-text .eyebrow::before { display: none; }
+    .hero-text .subtitle { margin-left: auto; margin-right: auto; }
+    .hero-cta { justify-content: center; }
+    .hero-photo { max-width: 280px; margin: 0 auto; }
+
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .research-cards { grid-template-columns: 1fr; }
+    .pub-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .pub-tags { flex-direction: row; align-items: flex-start; flex-wrap: wrap; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .teaching-grid { grid-template-columns: 1fr; }
+    .grant-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    .contact-links { gap: 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <img src="photo.jpg" alt="Liming Zhang" class="profile-photo">
-        <h1>Liming Zhang</h1>
-    </header>
+<!-- ===== Navigation ===== -->
+<nav id="navbar">
+  <a href="#" class="nav-brand">Liming <span>Zhang</span></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#notes">Notes</a></li>
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <p>2022 - 2025: Assistant Professor (Tenure- track) - School of Big Data and Statistics, Anhui University (AHU)</p>
+<!-- ===== Hero ===== -->
+<header class="hero" id="home">
+  <div class="hero-formula f1">
+    max E<sub>0</sub>[&int;<sub>0</sub><sup>&infin;</sup> e<sup>&minus;&rho;t</sup> U(c<sub>t</sub>) dt]<br>
+    dX<sub>t</sub> = (rX<sub>t</sub> &minus; c<sub>t</sub>)dt + &sigma; dW<sub>t</sub>
+  </div>
+  <div class="hero-formula f2">
+    VaR<sub>&alpha;</sub>(X) = inf{x : F<sub>X</sub>(x) &ge; &alpha;}<br>
+    min &nbsp; &sigma;<sub>p</sub><sup>2</sup> &nbsp; s.t. &nbsp; &mu;<sub>p</sub> &ge; &mu;<sub>0</sub>
+  </div>
 
-    <section>
-        <h2>GRANTS</h2>
-        <ol>
-            <li>National Natural Science Foundation of China/Youth Project (12201006) "α-maximum expected utility maximization problem and its application in investment and reinsurance", Sole-Investigator, 2023-2025;</li>
-            <li>Anhui Province Philosophy and Social Sciences Planning Project / Youth Project (AHSKYQ2025D33): "Research on the Optimization Path for Balancing Bank Profitability and Systemic Risk Based on Macroprudential Supervision and Machine Learning", PI, 2026-2027;</li>
-            <li>Anhui Province Higher Education Scientific Research Program (Natural Science)/Key Project (2024AH05 0083) "α-maximum mean-variance maximization problem and its application in investment and reinsurance", Sole-Investigator, 2024-2027.</li>
-        </ol>
-    </section>
-
-    <section>
-        <h2>SELECTED PUBLICATIONS (* CORRESPONDING AUTHOR SUPERVISED STUDENT.)</h2>
-        <ol>
-            <li class="item">
-                Yu Yuan, Ning Wang, Liming Zhang*, 2026. Equilibrium reinsurance price under α-maxmin mean-variance criterion: a view of demand and supply. <span class="journal-name">ASTIN Bulletin</span>, forthcoming.
-            </li>
-            <li class="item">
-                Liming Zhang, Ping Chen, Qian Zhao*, 2026. Optimal Investment-benefit for a Collective Defined Contribution Plan with Guaranteed Replacement Ratio. <span class="journal-name">Scandinavian Actuarial Journal</span>. 2026(6), 584-608.
-            </li>
-            <li class="item">
-                Hongping Wu*, Liming Zhang*, Qian Zhao. 2025. Alpha-robust reinsurance-investment strategy with negative risk dependence between two markets. <span class="journal-name">Journal of Computational and Applied Mathematics</span>, 463, 116501.
-            </li>
-            <li class="item">
-                Liming Zhang, Hongping Wu*, Ning Wang*, Qian Zhao. 2024. Equilibrium reinsurance strategies for catastrophe and secondary claims under α-maxmin mean-variance criterion. <span class="journal-name">International Review of Financial Analysis</span>. 96, Part B: 103729.
-            </li>
-            <li class="item">
-                Lin Xu*, Linlin Wang, Hao Wang, Liming Zhang. 2024. Optimal investment game for two regulated players with regime switching, <span class="journal-name">AIMS Mathematics</span>, 9(12): 34674-34704.
-            </li>
-            <li class="item">
-                Liming Zhang, Bin Li*, 2021. Optimal Reinsurance under the α-Maxmin Mean-Variance Criterion, <span class="journal-name">Insurance: Mathematics and Economics</span>, 101, 225-239.
-            </li>
-            <li class="item">
-                Liming Zhang, Rongming Wang, Jiaqin Wei*, 2022. Open-Loop Equilibrium Mean-Variance Reinsurance, New Business and Investment Strategies with Constraints, <span class="journal-name">Journal of Industrial and Management Optimization</span>, 2022, 18(6): 3897-3927.
-            </li>
-            <li class="item">
-                Liming Zhang, Rongming Wang, Jiaqin Wei*, 2020. Optimal mean-variance reinsurance and investment strategy with constraints in a non-Markovian regime-switching model. <span class="journal-name">Statistical Theory and Related Fields</span>, 4(2): 214-227.
-            </li>
-            <li class="item">
-                Lin Xu*, Liming Zhang, Dingjun Yao, 2017. Optimal investment and reinsurance for an insurer under markovmodulated financial market, <span class="journal-name">Insurance: Mathematics and Economics</span>, 74, 7-19., 31(03), 277-288.
-            </li>
-        </ol>
-    </section>
-
-    <section>
-        <h2>Teaching</h2>
-        <ul>
-            <li>Mathematical Analysis: Fall 2023, Fall 2024, Fall 2025, Fall 2026.</li>
-            <li>Statistical modeling design: Spring 2023, Spring 2024, Spring 2025, Spring 2026.</li>
-        </ul>
-    </section>
-
-    <div class="footer">
-        © 2026 Liming Zhang. Powered by GitHub Pages.
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="eyebrow">Associate Professor &middot; Actuarial Science</div>
+      <h1>Liming <em>Zhang</em></h1>
+      <p class="subtitle">
+        I work on <strong>stochastic control and dynamic optimization</strong> problems in insurance, finance, and economics — building mathematical models that help us understand risk, reinsurance, and investment decisions under uncertainty.
+      </p>
+      <p class="affiliation">School of Big Data and Statistics &middot; Anhui University &middot; Hefei, China</p>
+      <div class="hero-cta">
+        <a href="#publications" class="btn btn-primary">View Research</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
     </div>
-</div>
+    <div class="hero-photo">
+      <div class="photo-frame">
+        <img src="photo.jpg" alt="Portrait of Liming Zhang">
+      </div>
+      <div class="photo-tag">Hefei, 2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== About ===== -->
+<section class="about" id="about">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">About</div>
+      <h2 class="section-title">A mathematician working at the <em>intersection</em> of risk and decision.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I am an Associate Professor in the School of Big Data and Statistics at Anhui University. My research centers on stochastic control problems — particularly dynamic optimization in insurance, reinsurance, and financial mathematics. I am interested in how agents make optimal decisions when faced with risk, ambiguity, and evolving market conditions.</p>
+        <p>Before joining Anhui University, I completed my Ph.D. in Statistics with a concentration in Actuarial Science and Financial Mathematics at East China Normal University, under the supervision of Prof. Rongming Wang and Prof. Jiaqin Wei. I also spent time as a Visiting Ph.D. student at the University of Waterloo, Canada, working with Prof. Bin Li.</p>
+        <p>My work has been published in journals including <em>Scandinavian Actuarial Journal</em>, <em>Insurance: Mathematics and Economics</em>, <em>ASTIN Bulletin</em>, and <em>Journal of Computational and Applied Mathematics</em>.</p>
+      </div>
+      <div class="about-facts reveal">
+        <div class="fact-row">
+          <span class="fact-label">Position</span>
+          <span class="fact-value">Associate Professor (2026&ndash;)</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Previous</span>
+          <span class="fact-value">Assistant Professor, Tenure-track (2022&ndash;2025)</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Ph.D.</span>
+          <span class="fact-value">East China Normal University</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Visiting</span>
+          <span class="fact-value">University of Waterloo, Canada</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">ORCID</span>
+          <span class="fact-value">0000-0002-2498-7490</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Location</span>
+          <span class="fact-value">Hefei, Anhui, P.R. China</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Research ===== -->
+<section id="research">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Research Interests</div>
+      <h2 class="section-title">Where <em>mathematics</em> meets real-world risk.</h2>
+    </div>
+    <div class="research-cards">
+      <div class="research-card reveal">
+        <div class="card-num">01</div>
+        <h3>Stochastic Control &amp; Dynamic Optimization</h3>
+        <p>Optimal decision-making under uncertainty using stochastic dynamic programming, Hamilton-Jacobi-Bellman equations, and game-theoretic approaches.</p>
+      </div>
+      <div class="research-card reveal">
+        <div class="card-num">02</div>
+        <h3>Reinsurance &amp; Insurance Mathematics</h3>
+        <p>Equilibrium reinsurance strategies, risk-sharing between insurers and reinsurers, and the design of optimal reinsurance contracts under mean-variance criteria.</p>
+      </div>
+      <div class="research-card reveal">
+        <div class="card-num">03</div>
+        <h3>Financial Mathematics &amp; Investment</h3>
+        <p>Portfolio optimization, asset allocation under regime-switching and ambiguity, and the interplay between investment and insurance decisions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Publications ===== -->
+<section class="publications" id="publications">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Selected Publications</div>
+      <h2 class="section-title">Recent <em>work</em> &amp; papers.</h2>
+    </div>
+    <div class="pub-list">
+      <div class="pub-item reveal">
+        <div class="pub-year">2026</div>
+        <div class="pub-info">
+          <h4>Equilibrium reinsurance price under &alpha;-maxmin mean-variance criterion: A view of demand and supply</h4>
+          <div class="authors">Yu Yuan, Ning Wang, <span class="me">Liming Zhang</span>*</div>
+          <div class="venue">ASTIN Bulletin, forthcoming</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag corresponding">Corresponding</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2026</div>
+        <div class="pub-info">
+          <h4>Optimal investment-benefit for a Collective Defined Contribution Plan with Guaranteed Replacement Ratio</h4>
+          <div class="authors"><span class="me">Liming Zhang</span>, Pin Chen, Qian Zhao*</div>
+          <div class="venue">Scandinavian Actuarial Journal, 2026(6), 584&ndash;608</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag">First Author</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2025</div>
+        <div class="pub-info">
+          <h4>Alpha-robust reinsurance-investment strategy with negative risk dependence between two markets</h4>
+          <div class="authors">Hongping Wu&dagger;, <span class="me">Liming Zhang</span>*, Qian Zhao</div>
+          <div class="venue">Journal of Computational and Applied Mathematics, 463, 116501</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag corresponding">Corresponding</span>
+          <span class="pub-tag">Supervised Student</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2024</div>
+        <div class="pub-info">
+          <h4>Equilibrium reinsurance strategies for catastrophe and secondary claims under &alpha;-maxmin mean-variance criterion</h4>
+          <div class="authors"><span class="me">Liming Zhang</span>, Hongping Wu&dagger;, Ning Wang*, Qian Zhao</div>
+          <div class="venue">Insurance: Mathematics and Economics, 96, Part B: 103729</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag">First Author</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2024</div>
+        <div class="pub-info">
+          <h4>Optimal investment game for two regulated players with regime switching</h4>
+          <div class="authors">Lin Xu*, Liming Wang, Hao Wang, <span class="me">Liming Zhang</span></div>
+          <div class="venue">Optimal Control Applications &amp; Methods, 9(12): 3467&ndash;34704</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag">Co-author</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2022</div>
+        <div class="pub-info">
+          <h4>Optimal Reinsurance under the &alpha;-Maxmin Mean-Variance Criterion</h4>
+          <div class="authors"><span class="me">Liming Zhang</span>, Bin Li*, Rongming Wang, Jiaqin Wei</div>
+          <div class="venue">Insurance: Mathematics and Economics, 101, 225&ndash;239</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag">First Author</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2022</div>
+        <div class="pub-info">
+          <h4>Open-Loop Equilibrium Mean-Variance Reinsurance, New Business and Investment Strategies with Constraints</h4>
+          <div class="authors"><span class="me">Liming Zhang</span>, Rongming Wang, Jiaqin Wei*</div>
+          <div class="venue">Journal of Industrial and Management Optimization, 2022, 18(6): 3897&ndash;3927</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag">First Author</span>
+        </div>
+      </div>
+      <div class="pub-item reveal">
+        <div class="pub-year">2020</div>
+        <div class="pub-info">
+          <h4>Optimal mean-variance reinsurance and investment strategy with constraints in a non-Markov regime-switching model</h4>
+          <div class="authors"><span class="me">Liming Zhang</span>, Rongming Wang, Jiaqin Wei*</div>
+          <div class="venue">Statistical Theory and Related Fields, 4(2): 214&ndash;227</div>
+        </div>
+        <div class="pub-tags">
+          <span class="pub-tag">First Author</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Blog / Notes ===== -->
+<section id="notes">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Notes &amp; Writings</div>
+      <h2 class="section-title">Thoughts on <em>research</em>, teaching, and mathematics.</h2>
+    </div>
+    <div class="blog-grid">
+      <article class="blog-card reveal">
+        <div class="blog-visual">
+          <div class="formula">HJB : &part;<sub>t</sub>V + sup<sub>u</sub> L<sup>u</sup>V = 0</div>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta">
+            <span class="category">Research</span>
+            <span>Aug 2026</span>
+            <span>8 min read</span>
+          </div>
+          <h3>Understanding Time-Inconsistency in Mean-Variance Optimization</h3>
+          <p>Why does the classic mean-variance portfolio problem fail to be time-consistent, and how do equilibrium strategies resolve this tension? A walkthrough of the open-loop versus pre-commitment debate.</p>
+          <a href="#" class="read-more">Read Note</a>
+        </div>
+      </article>
+      <article class="blog-card reveal">
+        <div class="blog-visual">
+          <div class="formula">&alpha;-maxmin : &alpha; P<sub>opt</sub> + (1&minus;&alpha;) P<sub>pess</sub></div>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta">
+            <span class="category">Research</span>
+            <span>Jun 2026</span>
+            <span>12 min read</span>
+          </div>
+          <h3>The &alpha;-Maxmin Criterion: A Middle Ground for Ambiguity</h3>
+          <p>When an insurer faces model uncertainty, the &alpha;-maxmin framework offers a flexible blend of optimism and pessimism. Here is how it changes optimal reinsurance design.</p>
+          <a href="#" class="read-more">Read Note</a>
+        </div>
+      </article>
+      <article class="blog-card reveal">
+        <div class="blog-visual">
+          <div class="formula">CDC : V(t) = E[&int; e<sup>&minus;&rho;s</sup> U(c) ds]</div>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta">
+            <span class="category">Teaching</span>
+            <span>Apr 2026</span>
+            <span>6 min read</span>
+          </div>
+          <h3>Teaching Stochastic Control: What I Wish I Knew as a Student</h3>
+          <p>Reflections on five semesters of teaching mathematical analysis and statistical modeling — the concepts students struggle with most, and how I have learned to explain them better.</p>
+          <a href="#" class="read-more">Read Note</a>
+        </div>
+      </article>
+      <article class="blog-card reveal">
+        <div class="blog-visual">
+          <div class="formula">Nash : J<sub>i</sub>(u<sub>i</sub>*, u<sub>&minus;i</sub>*) &ge; J<sub>i</sub>(u<sub>i</sub>, u<sub>&minus;i</sub>*)</div>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta">
+            <span class="category">Research</span>
+            <span>Feb 2026</span>
+            <span>10 min read</span>
+          </div>
+          <h3>Game-Theoretic Reinsurance: When Insurer and Reinsurer Disagree</h3>
+          <p>A non-zero-sum stochastic game perspective on reinsurance pricing, and what happens when both parties optimize under different risk measures.</p>
+          <a href="#" class="read-more">Read Note</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Teaching ===== -->
+<section class="teaching" id="teaching">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Teaching</div>
+      <h2 class="section-title">Courses in the <em>classroom</em>.</h2>
+    </div>
+    <div class="teaching-grid">
+      <div class="teaching-card reveal">
+        <h3>Mathematical Analysis</h3>
+        <div class="course-code">Undergraduate &middot; Core</div>
+        <p class="terms">
+          <span>Fall 2023</span>
+          <span>Fall 2024</span>
+          <span>Fall 2025</span>
+          <span>Fall 2026</span>
+        </p>
+      </div>
+      <div class="teaching-card reveal">
+        <h3>Statistical Modeling Design</h3>
+        <div class="course-code">Undergraduate &middot; Applied</div>
+        <p class="terms">
+          <span>Spring 2023</span>
+          <span>Spring 2024</span>
+          <span>Spring 2025</span>
+          <span>Spring 2026</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Grants ===== -->
+<section id="grants">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Grants &amp; Funding</div>
+      <h2 class="section-title">Supported <em>research</em> projects.</h2>
+    </div>
+    <div class="grants-list">
+      <div class="grant-item reveal">
+        <div class="grant-period">2023&ndash;2025</div>
+        <div class="grant-info">
+          <h4>&alpha;-maximum expected utility maximization problem and its application in investment and reinsurance</h4>
+          <div class="grant-source">National Natural Science Foundation of China / Youth Project (12201006)</div>
+          <div class="grant-role">Sole Investigator</div>
+        </div>
+      </div>
+      <div class="grant-item reveal">
+        <div class="grant-period">2026&ndash;2027</div>
+        <div class="grant-info">
+          <h4>Research on the Optimization Path for Balancing Bank Profitability and Systemic Risk Based on Macroprudential Supervision and Machine Learning</h4>
+          <div class="grant-source">Anhui Province Philosophy and Social Sciences Planning Project / Youth Project (AHSKYQ2025D33)</div>
+          <div class="grant-role">Principal Investigator</div>
+        </div>
+      </div>
+      <div class="grant-item reveal">
+        <div class="grant-period">2024&ndash;2027</div>
+        <div class="grant-info">
+          <h4>&alpha;-maximum mean-variance maximization problem and its application in investment and reinsurance</h4>
+          <div class="grant-source">Anhui Province Higher Education Scientific Research Program / Key Project (2024AH050083)</div>
+          <div class="grant-role">Sole Investigator</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Let's <em>connect</em>.</h2>
+    </div>
+    <p class="contact-desc reveal">
+      I welcome collaborations, discussions, and inquiries about my research. Feel free to reach out by email or find me through the channels below.
+    </p>
+    <div class="contact-links reveal">
+      <a href="mailto:liming.zhang@ahu.edu.cn" class="contact-link">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <span class="label">Email</span>
+        <span class="value">liming.zhang@ahu.edu.cn</span>
+      </a>
+      <a href="https://orcid.org/0000-0002-2498-7490" target="_blank" rel="noopener" class="contact-link">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
+        <span class="label">ORCID</span>
+        <span class="value">0000-0002-2498-7490</span>
+      </a>
+      <a href="#" class="contact-link">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <span class="label">Office</span>
+        <span class="value">Anhui University, Hefei</span>
+      </a>
+    </div>
+    <div class="contact-footer">
+      &copy; 2026 Liming Zhang &middot; School of Big Data and Statistics, Anhui University &middot; All rights reserved
+    </div>
+  </div>
+</section>
+
+<script>
+  // ===== Navbar scroll effect =====
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // ===== Mobile nav toggle =====
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // ===== Scroll reveal =====
+  const revealElements = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  revealElements.forEach(el => observer.observe(el));
+
+  // ===== Smooth anchor scroll (offset for fixed nav) =====
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        const offset = 70;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
