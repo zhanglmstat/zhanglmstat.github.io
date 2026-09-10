@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>章礼明 (Liming Zhang) - 安徽大学</title>
+    <title>张黎明 (Liming Zhang) - 安徽大学</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -34,6 +34,15 @@
             margin-bottom: 40px;
             border-bottom: 2px solid var(--primary-color);
             padding-bottom: 20px;
+        }
+        .profile-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%; /* 变成圆形 */
+            object-fit: cover;  /* 保持比例裁剪 */
+            margin-bottom: 15px;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         header h1 {
             margin: 0 0 10px 0;
@@ -132,6 +141,8 @@
 
 <div class="container">
     <header>
+        <!-- 照片放置位置 -->
+        <img src="photo.jpg" alt="张黎明的个人照片" class="profile-photo">
         <h1>张黎明 (Liming Zhang)</h1>
         <div class="subtitle">副教授，硕士生导师</div>
         <div class="subtitle">安徽大学 大数据与统计学院</div>
@@ -177,9 +188,9 @@
     <section>
         <h2>科研项目</h2>
         <ul>
-            <li><span class="highlight">国家自然科学基金青年项目</span> (12201006)：α-最大期望效用最大化问题及其在投资和再保险中的应用，主持人，2023.01-2025.12。</li>
-            <li><span class="highlight">安徽省哲学社会科学规划青年项目</span> (AHSKYQ2025D33)：基于宏观审慎监管和机器学习的银行盈利性与系统性风险平衡优化路径研究，主持人，2026.01-2027.12。</li>
-            <li><span class="highlight">安徽省高校自然科学研究重点项目</span> (2024AH050083)：α-最大均值-方差最大化问题及其在投资和再保险中的应用，主持人，2023.01-2027.06。</li>
+            <li><span class="highlight">国家自然科学基金青年项目</span> (12201006)：α-最大期望效用最大化问题及其在投资和再保险中的应用，主持人，2023-2025。</li>
+            <li><span class="highlight">安徽省哲学社会科学规划青年项目</span> (AHSKYQ2025D33)：基于宏观审慎监管和机器学习的银行盈利性与系统性风险平衡优化路径研究，主持人，2026-2027。</li>
+            <li><span class="highlight">安徽省高校自然科学研究重点项目</span> (2024AH050083)：α-最大均值-方差最大化问题及其在投资和再保险中的应用，主持人，2024-2027。</li>
         </ul>
     </section>
 
