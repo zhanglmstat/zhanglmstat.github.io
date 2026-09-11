@@ -14,11 +14,1466 @@
       type="image/svg+xml"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307192f'/%3E%3Cpath d='M17 42c9-25 19-25 30 0M21 33h22' fill='none' stroke='%23f2a65a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #0a1b2d;
+        --ink-soft: #18344c;
+        --navy: #07192f;
+        --navy-2: #0c2943;
+        --paper: #f3f7fa;
+        --white: #ffffff;
+        --mist: #dce7ee;
+        --line: #cbd8e1;
+        --muted: #5f7283;
+        --cyan: #66cbd3;
+        --cyan-dark: #2d8995;
+        --gold: #f2a65a;
+        --gold-pale: #ffd7a6;
+        --shadow: 0 28px 80px rgba(2, 16, 31, 0.16);
+        --sans: Inter, "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+        --serif: "Iowan Old Style", "Noto Serif SC", "Source Han Serif SC", "Songti SC", Georgia, serif;
+        --page: 1180px;
+      }
+      
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5.5rem;
+      }
+      
+      body {
+        margin: 0;
+        overflow-x: clip;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--sans);
+        font-size: 1rem;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      
+      body::selection {
+        color: var(--navy);
+        background: var(--gold-pale);
+      }
+      
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+      
+      h1,
+      h2,
+      h3 {
+        text-wrap: balance;
+      }
+      
+      p {
+        text-wrap: pretty;
+      }
+      
+      .page-shell {
+        width: min(calc(100% - 3rem), var(--page));
+        margin-inline: auto;
+      }
+      
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      
+      .skip-link {
+        position: fixed;
+        z-index: 1000;
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.65rem 1rem;
+        color: var(--navy);
+        background: var(--gold);
+        font-weight: 700;
+        transform: translateY(-180%);
+        transition: transform 180ms ease;
+      }
+      
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+      
+      :focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 4px;
+      }
+      
+      .site-header {
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        left: 0;
+        color: var(--white);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(7, 25, 47, 0.82);
+        backdrop-filter: blur(18px);
+        transition: background 200ms ease, box-shadow 200ms ease;
+      }
+      
+      .site-header.is-scrolled {
+        background: rgba(7, 25, 47, 0.96);
+        box-shadow: 0 8px 30px rgba(0, 7, 16, 0.18);
+      }
+      
+      .header-inner {
+        display: flex;
+        min-height: 5rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      
+      .brand-name {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      
+      .brand-name strong {
+        font-family: var(--serif);
+        font-size: 1.05rem;
+        letter-spacing: 0.08em;
+      }
+      
+      .brand-name span {
+        margin-top: 0.2rem;
+        color: rgba(255, 255, 255, 0.62);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+      }
+      
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-left: auto;
+      }
+      
+      .site-nav a {
+        position: relative;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        transition: color 180ms ease;
+      }
+      
+      .site-nav a::after {
+        position: absolute;
+        right: 0;
+        bottom: -0.55rem;
+        left: 0;
+        height: 2px;
+        content: "";
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 180ms ease;
+      }
+      
+      .site-nav a:hover,
+      .site-nav a.is-active {
+        color: var(--white);
+      }
+      
+      .site-nav a:hover::after,
+      .site-nav a.is-active::after {
+        transform: scaleX(1);
+      }
+      
+      .language-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.45rem;
+        margin-left: 1.6rem;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: rgba(255, 255, 255, 0.42);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      
+      .language-switch button {
+        padding: 0.2rem 0.3rem;
+        border: 0;
+        color: rgba(255, 255, 255, 0.54);
+        background: transparent;
+        font-family: var(--sans);
+        font-size: 0.875rem;
+        font-weight: 750;
+        line-height: 1.2;
+        cursor: pointer;
+        transition: color 180ms ease, background 180ms ease;
+      }
+      
+      .language-switch button:hover,
+      .language-switch button[aria-pressed="true"] {
+        color: var(--navy);
+        background: var(--gold);
+      }
+      
+      .menu-toggle {
+        display: none;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        color: inherit;
+        background: transparent;
+        cursor: pointer;
+      }
+      
+      .menu-toggle span[aria-hidden] {
+        display: block;
+        width: 1.15rem;
+        height: 1px;
+        margin: 0.35rem auto;
+        background: currentColor;
+        transition: transform 180ms ease;
+      }
+      
+      .menu-toggle[aria-expanded="true"] span[aria-hidden]:first-of-type {
+        transform: translateY(0.175rem) rotate(45deg);
+      }
+      
+      .menu-toggle[aria-expanded="true"] span[aria-hidden]:last-of-type {
+        transform: translateY(-0.175rem) rotate(-45deg);
+      }
+      
+      .hero {
+        position: relative;
+        overflow: hidden;
+        min-height: 100svh;
+        padding: 10rem 0 3rem;
+        color: var(--white);
+        background:
+          radial-gradient(circle at 72% 28%, rgba(102, 203, 211, 0.16), transparent 28rem),
+          linear-gradient(125deg, var(--navy) 0%, #0b233b 68%, #0b3147 100%);
+      }
+      
+      .hero::before {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        content: "";
+        opacity: 0.17;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 56px 56px;
+        mask-image: linear-gradient(to bottom, black, transparent 88%);
+      }
+      
+      .hero::after {
+        position: absolute;
+        top: 16%;
+        right: -11rem;
+        width: 34rem;
+        height: 34rem;
+        border: 1px solid rgba(242, 166, 90, 0.26);
+        border-radius: 50%;
+        pointer-events: none;
+        content: "";
+        box-shadow:
+          0 0 0 5.5rem rgba(102, 203, 211, 0.035),
+          0 0 0 11rem rgba(242, 166, 90, 0.025);
+      }
+      
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+        gap: clamp(3rem, 8vw, 7.5rem);
+        align-items: center;
+      }
+      
+      .eyebrow,
+      .section-kicker {
+        margin-bottom: 1.3rem;
+        color: var(--cyan);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.19em;
+        text-transform: uppercase;
+      }
+      
+      .hero h1 {
+        margin-bottom: 1.6rem;
+        font-family: var(--serif);
+        font-size: clamp(4.5rem, 10vw, 8.3rem);
+        font-weight: 650;
+        line-height: 0.86;
+        letter-spacing: -0.07em;
+      }
+      
+      .hero h1 span,
+      .hero h1 small {
+        display: block;
+      }
+      
+      .hero h1 small {
+        margin-top: 1.25rem;
+        color: rgba(255, 255, 255, 0.58);
+        font-family: var(--sans);
+        font-size: clamp(1.05rem, 2vw, 1.45rem);
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+      }
+      
+      .hero-role {
+        padding-left: 1rem;
+        margin-bottom: 1.55rem;
+        border-left: 3px solid var(--gold);
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+      
+      .hero-role strong {
+        color: var(--white);
+        font-size: 1.15rem;
+        font-weight: 650;
+      }
+      
+      .hero-summary {
+        max-width: 41rem;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.78);
+        font-family: var(--serif);
+        font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+        line-height: 1.9;
+      }
+      
+      .hero-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+      
+      .hero-links a {
+        display: flex;
+        min-width: 15.5rem;
+        flex-direction: column;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+      }
+      
+      .hero-links a:hover {
+        border-color: var(--gold);
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-2px);
+      }
+      
+      .hero-links span {
+        margin-bottom: 0.1rem;
+        color: var(--gold-pale);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+      }
+      
+      .hero-links strong {
+        overflow-wrap: anywhere;
+        font-size: 0.88rem;
+        font-weight: 550;
+      }
+      
+      .hero-portrait {
+        position: relative;
+        max-width: 22rem;
+        margin-inline: auto;
+      }
+      
+      .hero-portrait::before {
+        position: absolute;
+        z-index: -1;
+        top: -1.2rem;
+        right: -1.2rem;
+        bottom: 3.8rem;
+        left: 1.2rem;
+        content: "";
+        border: 1px solid rgba(242, 166, 90, 0.42);
+      }
+      
+      .portrait-frame {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 3 / 4;
+        background: #dfe9ef;
+        box-shadow: var(--shadow);
+      }
+      
+      .portrait-frame::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+      }
+      
+      .portrait-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 48%;
+      }
+      
+      .portrait-note {
+        display: grid;
+        width: calc(100% - 2.2rem);
+        grid-template-columns: auto 1fr;
+        gap: 0.9rem;
+        align-items: center;
+        padding: 0.9rem 1rem;
+        margin: -1.65rem 0 0 -1rem;
+        color: var(--navy);
+        background: var(--gold);
+        box-shadow: 0 16px 36px rgba(1, 15, 28, 0.3);
+      }
+      
+      .portrait-note > span {
+        color: rgba(7, 25, 47, 0.55);
+        font-family: var(--serif);
+        font-size: 1.7rem;
+      }
+      
+      .portrait-note p {
+        margin: 0;
+        line-height: 1.35;
+      }
+      
+      .portrait-note strong,
+      .portrait-note small {
+        display: block;
+      }
+      
+      .portrait-note strong {
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+      }
+      
+      .portrait-note small {
+        color: rgba(7, 25, 47, 0.62);
+        font-size: 0.72rem;
+      }
+      
+      .hero-facts {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: clamp(3rem, 8vh, 6rem);
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      
+      .hero-facts div {
+        padding: 1.2rem 1.6rem;
+      }
+      
+      .hero-facts div + div {
+        border-left: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      
+      .hero-facts span,
+      .hero-facts strong {
+        display: block;
+      }
+      
+      .hero-facts span {
+        color: var(--gold-pale);
+        font-size: 0.72rem;
+        letter-spacing: 0.11em;
+      }
+      
+      .hero-facts strong {
+        margin-top: 0.15rem;
+        font-size: 0.93rem;
+        font-weight: 550;
+      }
+      
+      .section {
+        padding: clamp(5.5rem, 10vw, 9rem) 0;
+      }
+      
+      .two-column-intro {
+        display: grid;
+        grid-template-columns: 9rem minmax(0, 1fr);
+        gap: clamp(2rem, 7vw, 7rem);
+      }
+      
+      .section-index {
+        padding-top: 0.35rem;
+      }
+      
+      .section-index span {
+        display: block;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--line);
+        color: var(--cyan-dark);
+        font-family: var(--serif);
+        font-size: 2.8rem;
+        line-height: 1;
+      }
+      
+      .section-index p {
+        margin-top: 0.8rem;
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+      }
+      
+      .intro-body {
+        max-width: 54rem;
+      }
+      
+      .intro-body h2,
+      .section-heading h2,
+      .journey-heading h2,
+      .projects-intro h2,
+      .contact h2 {
+        margin-bottom: 1.8rem;
+        font-family: var(--serif);
+        font-size: clamp(2.3rem, 5vw, 4rem);
+        font-weight: 650;
+        line-height: 1.22;
+        letter-spacing: -0.045em;
+      }
+      
+      .intro-body .lead-copy {
+        margin-bottom: 1.4rem;
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: clamp(1.25rem, 2vw, 1.55rem);
+        line-height: 1.9;
+      }
+      
+      .intro-body > p:not(.section-kicker):not(.lead-copy) {
+        max-width: 48rem;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+      
+      .affiliation-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem 2rem;
+        padding-top: 1.7rem;
+        margin-top: 2rem;
+        border-top: 1px solid var(--line);
+      }
+      
+      .affiliation-links a,
+      .text-link {
+        color: var(--ink-soft);
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: color 180ms ease;
+      }
+      
+      .affiliation-links a:hover,
+      .text-link:hover {
+        color: var(--cyan-dark);
+      }
+      
+      .affiliation-links span,
+      .text-link span {
+        display: inline-block;
+        margin-left: 0.15rem;
+        color: var(--gold);
+        transition: transform 180ms ease;
+      }
+      
+      .affiliation-links a:hover span,
+      .text-link:hover span {
+        transform: translate(2px, -2px);
+      }
+      
+      .research {
+        color: var(--white);
+        background: var(--navy);
+      }
+      
+      .section-heading {
+        display: grid;
+        grid-template-columns: 1fr minmax(18rem, 0.62fr);
+        gap: 3rem;
+        align-items: end;
+        padding-bottom: 2.3rem;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .research .section-heading {
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+      
+      .section-heading h2 {
+        margin-bottom: 0;
+      }
+      
+      .section-heading > p {
+        margin-bottom: 0.3rem;
+        color: var(--muted);
+      }
+      
+      .research .section-heading > p {
+        color: rgba(255, 255, 255, 0.63);
+      }
+      
+      .interest-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        margin-top: 3rem;
+        background: rgba(255, 255, 255, 0.16);
+      }
+      
+      .interest-card {
+        min-height: 25rem;
+        padding: 1.6rem;
+        background: #0a2239;
+        transition: background 200ms ease, transform 200ms ease;
+      }
+      
+      .interest-card:hover {
+        position: relative;
+        z-index: 2;
+        background: #0f3049;
+        transform: translateY(-4px);
+      }
+      
+      .interest-card.feature-card {
+        background: #0f344d;
+      }
+      
+      .card-number {
+        color: rgba(255, 255, 255, 0.42);
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+      }
+      
+      .interest-symbol {
+        height: 10rem;
+        padding-top: 1.7rem;
+        color: var(--gold);
+        font-family: var(--serif);
+        font-size: 6rem;
+        font-style: italic;
+        line-height: 1;
+      }
+      
+      .interest-card h3 {
+        margin-bottom: 0.15rem;
+        font-family: var(--serif);
+        font-size: 1.65rem;
+        font-weight: 600;
+      }
+      
+      .interest-card > p {
+        margin-bottom: 1.5rem;
+        color: var(--cyan);
+        font-size: 0.77rem;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+      
+      .card-rule {
+        width: 2.6rem;
+        height: 2px;
+        margin-bottom: 1rem;
+        background: var(--gold);
+      }
+      
+      .interest-card small {
+        color: rgba(255, 255, 255, 0.62);
+        font-size: 0.86rem;
+      }
+      
+      .journey {
+        background:
+          linear-gradient(90deg, rgba(10, 27, 45, 0.038) 1px, transparent 1px) 0 0 / 72px 72px,
+          var(--white);
+      }
+      
+      .journey-layout {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.3fr);
+        gap: clamp(3rem, 8vw, 8rem);
+      }
+      
+      .journey-heading {
+        position: sticky;
+        top: 8rem;
+        align-self: start;
+      }
+      
+      .journey-heading h2 {
+        margin-bottom: 0.8rem;
+      }
+      
+      .journey-heading > p:last-child,
+      .projects-intro > p:last-child {
+        color: var(--muted);
+      }
+      
+      .timeline {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      
+      .timeline li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 10rem minmax(0, 1fr);
+        gap: 1.5rem;
+        padding: 0 0 3rem 2rem;
+        border-left: 1px solid var(--line);
+      }
+      
+      .timeline li::before {
+        position: absolute;
+        top: 0.38rem;
+        left: -0.39rem;
+        width: 0.7rem;
+        height: 0.7rem;
+        content: "";
+        border: 2px solid var(--white);
+        border-radius: 50%;
+        background: var(--cyan-dark);
+        box-shadow: 0 0 0 1px var(--cyan-dark);
+      }
+      
+      .timeline li:last-child {
+        padding-bottom: 0;
+      }
+      
+      .timeline-date {
+        color: var(--cyan-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+      }
+      
+      .timeline-copy h3 {
+        margin-bottom: 0.35rem;
+        font-family: var(--serif);
+        font-size: 1.25rem;
+        font-weight: 650;
+      }
+      
+      .timeline-copy p {
+        margin-bottom: 0.2rem;
+        color: var(--muted);
+      }
+      
+      .timeline-copy small {
+        color: #7e8c98;
+        font-size: 0.78rem;
+      }
+      
+      .publications {
+        background: var(--paper);
+      }
+      
+      .publication-heading {
+        align-items: end;
+      }
+      
+      .publication-legend {
+        font-size: 0.84rem;
+        text-align: right;
+      }
+      
+      .publication-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      
+      .publication-list li {
+        display: grid;
+        grid-template-columns: 6.5rem minmax(0, 1fr);
+        gap: 2rem;
+        padding: 2.15rem 0;
+        border-bottom: 1px solid var(--line);
+        transition: padding 180ms ease, background 180ms ease;
+      }
+      
+      .publication-list li:hover {
+        padding-right: 1.2rem;
+        padding-left: 1.2rem;
+        background: var(--white);
+      }
+      
+      .publication-list time {
+        color: var(--cyan-dark);
+        font-family: var(--serif);
+        font-size: 1.4rem;
+        font-weight: 650;
+      }
+      
+      .publication-list h3 {
+        max-width: 54rem;
+        margin-bottom: 0.55rem;
+        font-family: var(--serif);
+        font-size: clamp(1.05rem, 2vw, 1.3rem);
+        font-weight: 650;
+        line-height: 1.55;
+      }
+      
+      .publication-list h3 a {
+        background-image: linear-gradient(var(--gold), var(--gold));
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        background-size: 0 2px;
+        transition: color 180ms ease, background-size 180ms ease;
+      }
+      
+      .publication-list h3 a:hover {
+        color: var(--cyan-dark);
+        background-size: 100% 2px;
+      }
+      
+      .authors,
+      .venue {
+        margin-bottom: 0.35rem;
+        color: var(--muted);
+        font-size: 0.83rem;
+        line-height: 1.55;
+      }
+      
+      .authors strong {
+        color: var(--ink);
+        font-weight: 750;
+      }
+      
+      .venue {
+        margin-bottom: 0;
+      }
+      
+      .section-action {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 2rem;
+      }
+      
+      .projects {
+        color: var(--white);
+        background: #0b2b43;
+      }
+      
+      .projects-layout {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.28fr);
+        gap: clamp(3rem, 8vw, 8rem);
+      }
+      
+      .projects-intro {
+        position: sticky;
+        top: 8rem;
+        align-self: start;
+      }
+      
+      .projects-intro h2 {
+        margin-bottom: 1rem;
+      }
+      
+      .projects-intro > p:last-child {
+        color: rgba(255, 255, 255, 0.62);
+      }
+      
+      .project-list {
+        counter-reset: project;
+      }
+      
+      .project-list article {
+        position: relative;
+        padding: 0 0 2.6rem 3rem;
+        border-left: 1px solid rgba(255, 255, 255, 0.18);
+        counter-increment: project;
+      }
+      
+      .project-list article + article {
+        padding-top: 2.6rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      
+      .project-list article::before {
+        position: absolute;
+        top: 0;
+        left: -1.05rem;
+        display: grid;
+        width: 2.1rem;
+        height: 2.1rem;
+        place-items: center;
+        content: counter(project, decimal-leading-zero);
+        color: var(--navy);
+        background: var(--gold);
+        font-family: var(--serif);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+      
+      .project-list article + article::before {
+        top: 2.6rem;
+      }
+      
+      .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem 1.2rem;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        color: var(--cyan);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+      }
+      
+      .project-meta code {
+        color: rgba(255, 255, 255, 0.55);
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 0.72rem;
+      }
+      
+      .project-list h3 {
+        margin-bottom: 0.55rem;
+        font-family: var(--serif);
+        font-size: 1.35rem;
+        font-weight: 650;
+      }
+      
+      .project-list p {
+        margin-bottom: 0.7rem;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      
+      .project-list small {
+        color: var(--gold-pale);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+      
+      .teaching {
+        background: var(--white);
+      }
+      
+      .teaching-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        margin-top: 3rem;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+      
+      .course-panel,
+      .award-panel {
+        padding: clamp(1.5rem, 4vw, 3rem);
+        background: var(--paper);
+      }
+      
+      .panel-label {
+        padding-bottom: 1rem;
+        margin-bottom: 0;
+        border-bottom: 2px solid var(--ink);
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+      }
+      
+      .course-panel article {
+        display: grid;
+        grid-template-columns: 2.5rem 1fr;
+        gap: 1rem;
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .course-panel article > span {
+        color: var(--gold);
+        font-family: var(--serif);
+        font-size: 1.45rem;
+      }
+      
+      .course-panel h3 {
+        margin-bottom: 0.1rem;
+        font-family: var(--serif);
+        font-size: 1.35rem;
+      }
+      
+      .course-panel article p {
+        margin-bottom: 0.4rem;
+        color: var(--cyan-dark);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      
+      .course-panel article small {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      
+      .award-panel ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      
+      .award-panel li {
+        display: grid;
+        grid-template-columns: 4rem minmax(0, 1fr);
+        gap: 1.2rem;
+        padding: 1.4rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .award-panel time {
+        color: var(--cyan-dark);
+        font-family: var(--serif);
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+      
+      .award-panel li p {
+        margin-bottom: 0;
+        font-size: 0.92rem;
+        line-height: 1.65;
+      }
+      
+      .contact {
+        padding: clamp(4.5rem, 8vw, 7rem) 0;
+        color: var(--white);
+        background: var(--navy);
+      }
+      
+      .contact-inner {
+        display: grid;
+        grid-template-columns: 1fr minmax(20rem, 0.72fr);
+        gap: 3rem;
+        align-items: end;
+      }
+      
+      .contact h2 {
+        margin-bottom: 0;
+      }
+      
+      .contact-email {
+        display: block;
+        padding: 1.25rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        transition: border-color 180ms ease, padding 180ms ease;
+      }
+      
+      .contact-email:hover {
+        padding-left: 1rem;
+        border-color: var(--gold);
+      }
+      
+      .contact-email span,
+      .contact-email strong {
+        display: block;
+      }
+      
+      .contact-email span {
+        color: var(--gold-pale);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+      }
+      
+      .contact-email strong {
+        overflow-wrap: anywhere;
+        font-size: clamp(1rem, 2vw, 1.22rem);
+        font-weight: 550;
+      }
+      
+      .site-footer {
+        padding: 1.3rem 0;
+        color: rgba(255, 255, 255, 0.52);
+        background: #04111f;
+      }
+      
+      .footer-inner {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .footer-inner p {
+        margin: 0;
+        font-size: 0.72rem;
+      }
+      
+      .js [data-reveal] {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 650ms ease, transform 650ms ease;
+      }
+      
+      .js [data-reveal].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      @media (max-width: 900px) {
+        .hero {
+          padding-top: 8.5rem;
+        }
+      
+        .hero-grid {
+          grid-template-columns: 1fr 17rem;
+          gap: 3rem;
+        }
+      
+        .hero h1 {
+          font-size: clamp(4rem, 10vw, 6.4rem);
+        }
+      
+        .section-heading {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+      
+        .section-heading > p {
+          max-width: 36rem;
+        }
+      
+        .publication-legend {
+          text-align: left;
+        }
+      
+        .journey-layout,
+        .projects-layout {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+      
+        .journey-heading,
+        .projects-intro {
+          position: static;
+        }
+      
+        .contact-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+      
+      @media (max-width: 760px) {
+        .page-shell {
+          width: min(calc(100% - 2rem), var(--page));
+        }
+      
+        .header-inner {
+          min-height: 4.5rem;
+        }
+      
+        .menu-toggle {
+          display: block;
+          margin-left: 0.65rem;
+        }
+      
+        .language-switch {
+          margin-left: auto;
+        }
+      
+        .js .site-nav {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          left: 0;
+          display: none;
+          flex-direction: column;
+          gap: 0;
+          align-items: stretch;
+          padding: 0.6rem 1rem 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(7, 25, 47, 0.98);
+        }
+      
+        .js .site-nav.is-open {
+          display: flex;
+        }
+      
+        .site-nav a {
+          padding: 0.8rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        }
+      
+        .site-nav a::after {
+          display: none;
+        }
+      
+        .hero {
+          min-height: auto;
+          padding: 7.6rem 0 2rem;
+        }
+      
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 3.5rem;
+        }
+      
+        .hero-copy {
+          text-align: left;
+        }
+      
+        .hero h1 {
+          font-size: clamp(4.2rem, 21vw, 6.3rem);
+        }
+      
+        .hero-portrait {
+          width: min(78vw, 20rem);
+        }
+      
+        .hero-facts {
+          grid-template-columns: 1fr;
+          margin-top: 4rem;
+        }
+      
+        .hero-facts div + div {
+          border-top: 1px solid rgba(255, 255, 255, 0.14);
+          border-left: 0;
+        }
+      
+        .two-column-intro {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      
+        .section-index {
+          display: grid;
+          grid-template-columns: 4rem 1fr;
+          gap: 1rem;
+          align-items: end;
+        }
+      
+        .section-index span {
+          padding-bottom: 0.5rem;
+        }
+      
+        .section-index p {
+          padding-bottom: 0.4rem;
+          margin: 0;
+          border-bottom: 1px solid var(--line);
+        }
+      
+        .interest-grid,
+        .teaching-grid {
+          grid-template-columns: 1fr;
+        }
+      
+        .interest-card {
+          min-height: 21rem;
+        }
+      
+        .timeline li {
+          grid-template-columns: 1fr;
+          gap: 0.45rem;
+        }
+      
+        .publication-list li {
+          grid-template-columns: 4rem minmax(0, 1fr);
+          gap: 1rem;
+        }
+      
+        .publication-list li:hover {
+          padding-right: 0;
+          padding-left: 0;
+          background: transparent;
+        }
+      
+        .project-list article {
+          padding-left: 2.3rem;
+        }
+      
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+      }
+      
+      @media (max-width: 430px) {
+        .brand-name span {
+          display: none;
+        }
+      
+        .hero-links,
+        .hero-links a {
+          width: 100%;
+        }
+      
+        .hero-links a {
+          min-width: 0;
+        }
+      
+        .publication-list li {
+          grid-template-columns: 1fr;
+          gap: 0.55rem;
+        }
+      
+        .publication-list time {
+          font-size: 1rem;
+        }
+      
+        .award-panel li {
+          grid-template-columns: 3.6rem minmax(0, 1fr);
+          gap: 0.8rem;
+        }
+      }
+      
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      
+        .js [data-reveal] {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      
+      @media print {
+        .site-header,
+        .skip-link,
+        .menu-toggle {
+          display: none !important;
+        }
+      
+        .hero {
+          min-height: auto;
+          padding-top: 3rem;
+          color: var(--ink);
+          background: var(--white);
+        }
+      
+        .hero::before,
+        .hero::after,
+        .hero-portrait::before {
+          display: none;
+        }
+      
+        .hero h1 small,
+        .hero-role,
+        .hero-role strong,
+        .hero-summary,
+        .hero-facts strong,
+        .hero-links strong {
+          color: var(--ink);
+        }
+      
+        .hero-links span,
+        .hero-facts span {
+          color: var(--muted);
+        }
+      
+        .section,
+        .contact {
+          padding: 3rem 0;
+        }
+      
+        .research,
+        .projects,
+        .contact {
+          color: var(--ink);
+          background: var(--white);
+        }
+      
+        .interest-card,
+        .interest-card.feature-card {
+          color: var(--ink);
+          background: var(--paper);
+        }
+      
+        .interest-card small,
+        .projects-intro > p:last-child,
+        .project-list p {
+          color: var(--muted);
+        }
+      
+        .project-list article {
+          border-color: var(--line);
+        }
+      
+        .publication-list li,
+        .project-list article,
+        .course-panel article,
+        .award-panel li {
+          break-inside: avoid;
+        }
+      
+        .js [data-reveal] {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      
+    </style>
     <script>
       document.documentElement.classList.add("js");
     </script>
-    <script src="script.js" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -518,5 +1973,2516 @@
         <p>资料更新于 2026 年 9 月</p>
       </div>
     </footer>
+    <script>
+      const header = document.querySelector("[data-header]");
+      const menuToggle = document.querySelector("[data-menu-toggle]");
+      const nav = document.querySelector("[data-nav]");
+      const navLinks = [...document.querySelectorAll(".site-nav a")];
+      const sections = [...document.querySelectorAll("main section[id]")];
+      const revealItems = [...document.querySelectorAll("[data-reveal]")];
+      const languageButtons = [...document.querySelectorAll("[data-language]")];
+      
+      const translations = {
+        "跳到主要内容": "Skip to main content",
+        "简介": "About",
+        "研究": "Research",
+        "论文": "Publications",
+        "项目": "Grants",
+        "教学与荣誉": "Teaching & Honors",
+        "安徽大学大数据与统计学院": "School of Big Data and Statistics, Anhui University",
+        "副教授 · 硕士研究生导师": "Associate Professor · Master's Supervisor",
+        "研究方向包括保险精算、随机控制与金融数学，重点关注保险、金融和经济领域中的动态优化问题。":
+          "My research interests include actuarial science, stochastic control, and financial mathematics, with a focus on dynamic optimization problems in insurance, finance, and economics.",
+        "邮箱": "Email",
+        "当前职务": "Current position",
+        "副教授 · 硕导": "Associate Professor",
+        "博士学位": "Doctorate",
+        "统计学 · 2021": "Statistics · 2021",
+        "联合培养": "Joint training",
+        "个人简介": "Profile",
+        "保险、金融与经济中的随机控制": "Stochastic Control in Insurance, Finance, and Economics",
+        "章礼明，现为安徽大学大数据与统计学院副教授、硕士研究生导师。2021年博士毕业于华东师范大学统计学专业，获理学博士学位。":
+          "Liming Zhang is an Associate Professor and master's supervisor at the School of Big Data and Statistics, Anhui University. He received his Ph.D. in Statistics from East China Normal University in 2021.",
+        "2019年至2021年受国家留学基金委资助，赴加拿大滑铁卢大学统计与精算科学系进行博士生联合培养。主要研究方向为保险精算、随机控制与金融数学。":
+          "From 2019 to 2021, supported by the China Scholarship Council, he was a joint-training doctoral student in the Department of Statistics and Actuarial Science at the University of Waterloo, Canada. His research interests include actuarial science, stochastic control, and financial mathematics.",
+        "安徽大学": "Anhui University",
+        "华东师范大学": "East China Normal University",
+        "研究方向": "Research Interests",
+        "以随机控制与动态优化为方法基础，研究保险、金融和经济领域中的决策问题。":
+          "Using stochastic control and dynamic optimization, I study decision problems arising in insurance, finance, and economics.",
+        "保险精算": "Actuarial Science",
+        "再保险、投资与风险管理": "Reinsurance, investment, and risk management",
+        "随机控制": "Stochastic Control",
+        "动态优化与均值—方差决策": "Dynamic optimization and mean–variance decisions",
+        "金融数学": "Financial Mathematics",
+        "金融市场中的最优策略": "Optimal strategies in financial markets",
+        "学术经历": "Academic Journey",
+        "教育经历与任职轨迹": "Education and appointments",
+        "2026 — 至今": "2026 — Present",
+        "副教授、硕士研究生导师": "Associate Professor · Master's Supervisor",
+        "安徽大学 · 大数据与统计学院": "School of Big Data and Statistics · Anhui University",
+        "讲师、硕士研究生导师": "Assistant Professor · Master's Supervisor",
+        "理学博士 · 统计学": "Ph.D. in Statistics",
+        "导师：汪荣明教授、危佳钦教授": "Supervisors: Prof. Rongming Wang and Prof. Jiaqin Wei",
+        "国家公派联合培养博士研究生": "CSC-Sponsored Visiting Ph.D. Student",
+        "加拿大滑铁卢大学 · 统计与精算科学系":
+          "Department of Statistics and Actuarial Science · University of Waterloo, Canada",
+        "合作导师：Bin Li 教授": "Host supervisor: Prof. Bin Li",
+        "代表性论文": "Selected Publications",
+        "通讯作者": "Corresponding author",
+        "指导学生": "Supervised student",
+        "即将刊出": "Forthcoming",
+        "在 ORCID 查看学术记录": "View academic record on ORCID",
+        "主持项目": "Principal Investigator Projects",
+        "围绕投资、再保险、系统性风险与动态模糊态度开展研究。":
+          "Research projects on investment, reinsurance, systemic risk, and dynamic ambiguity attitudes.",
+        "国家自然科学基金青年项目": "National Natural Science Foundation of China · Youth Project",
+        "α-最大最小期望效用最大化问题及其在投资和再保险中的应用":
+          "α-maxmin expected utility maximization and its applications in investment and reinsurance",
+        "安徽省哲学社会科学规划青年项目":
+          "Anhui Provincial Philosophy and Social Sciences Planning Project · Youth Project",
+        "基于宏观审慎监管与机器学习的银行盈利与系统性风险平衡优化路径研究":
+          "Optimization paths for balancing bank profitability and systemic risk based on macroprudential supervision and machine learning",
+        "安徽省高校科研计划自然科学类重点项目":
+          "Anhui Provincial Higher Education Scientific Research Program (Natural Science) · Key Project",
+        "重点项目": "Key Project",
+        "动态模糊态度 α-最大最小均值—方差最大化问题及其在投资与再保险中的应用":
+          "α-maxmin mean–variance maximization with dynamic ambiguity attitudes and its applications in investment and reinsurance",
+        "主持": "Principal Investigator",
+        "承担本科课程教学，并指导学生参与学科竞赛与创新训练项目。":
+          "Teaching undergraduate courses and supervising students in academic competitions and innovation training projects.",
+        "主讲课程": "Courses",
+        "数学分析": "Mathematical Analysis",
+        "2023、2024、2025、2026 秋季学期": "Fall 2023, 2024, 2025, and 2026",
+        "统计建模设计": "Statistical Modeling Design",
+        "2023、2024、2025、2026 春季学期": "Spring 2023, 2024, 2025, and 2026",
+        "部分荣誉": "Selected Honors",
+        "博士学位论文获评华东师范大学优秀博士学位论文（前10%）":
+          "Outstanding Doctoral Dissertation, East China Normal University (top 10%)",
+        "学术交流与合作": "Academic Exchange and Collaboration",
+        "电子邮箱": "Email",
+        "资料更新于 2026 年 9 月": "Profile updated in September 2026",
+      };
+      
+      const interfaceCopy = {
+        zh: {
+          title: "章礼明 · Liming Zhang | 安徽大学",
+          description:
+            "章礼明，安徽大学大数据与统计学院副教授、硕士研究生导师。研究方向包括保险精算、随机控制与金融数学。",
+          brandLabel: "返回首页",
+          navLabel: "主要导航",
+          languageLabel: "语言选择",
+          contactLabel: "联系方式与学术主页",
+          factsLabel: "个人概览",
+          photoAlt: "章礼明的个人照片",
+          menuOpen: "打开导航菜单",
+          menuClose: "关闭导航菜单",
+        },
+        en: {
+          title: "Liming Zhang | Anhui University",
+          description:
+            "Liming Zhang is an Associate Professor and master's supervisor at Anhui University. His research interests include actuarial science, stochastic control, and financial mathematics.",
+          brandLabel: "Back to top",
+          navLabel: "Main navigation",
+          languageLabel: "Language selection",
+          contactLabel: "Contact and academic profiles",
+          factsLabel: "Profile overview",
+          photoAlt: "Portrait of Liming Zhang",
+          menuOpen: "Open navigation menu",
+          menuClose: "Close navigation menu",
+        },
+      };
+      
+      const normalizeText = (value) => value.trim().replace(/\s+/g, " ");
+      const localizedTextNodes = [];
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (["SCRIPT", "STYLE"].includes(node.parentElement?.tagName)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          const key = normalizeText(node.nodeValue || "");
+          return translations[key] ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        },
+      });
+      
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const value = node.nodeValue || "";
+        const leading = value.match(/^\s*/)?.[0] || "";
+        const trailing = value.match(/\s*$/)?.[0] || "";
+        const zh = normalizeText(value);
+        localizedTextNodes.push({ node, leading, trailing, zh, en: translations[zh] });
+      }
+      
+      let activeLanguage = "zh";
+      
+      const updateMenuLabel = () => {
+        if (!menuToggle) return;
+        const open = menuToggle.getAttribute("aria-expanded") === "true";
+        const label = interfaceCopy[activeLanguage][open ? "menuClose" : "menuOpen"];
+        const labelNode = menuToggle.querySelector(".sr-only");
+        if (labelNode) labelNode.textContent = label;
+      };
+      
+      const setMenuState = (open) => {
+        if (!menuToggle || !nav) return;
+        menuToggle.setAttribute("aria-expanded", String(open));
+        nav.classList.toggle("is-open", open);
+        updateMenuLabel();
+      };
+      
+      const setLanguage = (language, persist = true) => {
+        activeLanguage = language === "en" ? "en" : "zh";
+        const copy = interfaceCopy[activeLanguage];
+      
+        localizedTextNodes.forEach(({ node, leading, trailing, zh, en }) => {
+          node.nodeValue = `${leading}${activeLanguage === "en" ? en : zh}${trailing}`;
+        });
+      
+        document.documentElement.lang = activeLanguage === "en" ? "en" : "zh-CN";
+        document.body.dataset.language = activeLanguage;
+        document.title = copy.title;
+        const description = document.querySelector('meta[name="description"]');
+        if (description) description.setAttribute("content", copy.description);
+      
+        document.querySelector(".brand")?.setAttribute("aria-label", copy.brandLabel);
+        nav?.setAttribute("aria-label", copy.navLabel);
+        document.querySelector(".language-switch")?.setAttribute("aria-label", copy.languageLabel);
+        document.querySelector(".hero-links")?.setAttribute("aria-label", copy.contactLabel);
+        document.querySelector(".hero-facts")?.setAttribute("aria-label", copy.factsLabel);
+        document.querySelector(".portrait-frame img")?.setAttribute("alt", copy.photoAlt);
+      
+        languageButtons.forEach((button) => {
+          const selected = button.dataset.language === activeLanguage;
+          button.setAttribute("aria-pressed", String(selected));
+        });
+      
+        updateMenuLabel();
+      
+        if (persist) {
+          try {
+            localStorage.setItem("profile-language", activeLanguage);
+          } catch {
+            // The language switch still works when storage is unavailable.
+          }
+        }
+      };
+      
+      languageButtons.forEach((button) => {
+        button.addEventListener("click", () => setLanguage(button.dataset.language));
+      });
+      
+      menuToggle?.addEventListener("click", () => {
+        setMenuState(menuToggle.getAttribute("aria-expanded") !== "true");
+      });
+      
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => setMenuState(false));
+      });
+      
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setMenuState(false);
+      });
+      
+      const updateHeader = () => {
+        header?.classList.toggle("is-scrolled", window.scrollY > 18);
+      };
+      
+      updateHeader();
+      window.addEventListener("scroll", updateHeader, { passive: true });
+      
+      if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -7%" },
+        );
+      
+        revealItems.forEach((item) => revealObserver.observe(item));
+      
+        const sectionObserver = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      
+            if (!visible) return;
+            navLinks.forEach((link) => {
+              link.classList.toggle(
+                "is-active",
+                link.getAttribute("href") === `#${visible.target.id}`,
+              );
+            });
+          },
+          { rootMargin: "-25% 0px -62%", threshold: [0.01, 0.2, 0.5] },
+        );
+      
+        sections.forEach((section) => sectionObserver.observe(section));
+      } else {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
+      
+      const year = document.querySelector("[data-year]");
+      if (year) year.textContent = new Date().getFullYear();
+      
+      let savedLanguage = null;
+      try {
+        savedLanguage = localStorage.getItem("profile-language");
+      } catch {
+        // Use the browser language when storage is unavailable.
+      }
+      
+      setLanguage(savedLanguage || "en", false);
+      
+    </script>
+  </body>
+</html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="章礼明，安徽大学大数据与统计学院副教授、硕士研究生导师。研究方向包括保险精算、随机控制与金融数学。"
+    />
+    <meta name="theme-color" content="#07192f" />
+    <title>章礼明 · Liming Zhang | 安徽大学</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307192f'/%3E%3Cpath d='M17 42c9-25 19-25 30 0M21 33h22' fill='none' stroke='%23f2a65a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #0a1b2d;
+        --ink-soft: #18344c;
+        --navy: #07192f;
+        --navy-2: #0c2943;
+        --paper: #f3f7fa;
+        --white: #ffffff;
+        --mist: #dce7ee;
+        --line: #cbd8e1;
+        --muted: #5f7283;
+        --cyan: #66cbd3;
+        --cyan-dark: #2d8995;
+        --gold: #f2a65a;
+        --gold-pale: #ffd7a6;
+        --shadow: 0 28px 80px rgba(2, 16, 31, 0.16);
+        --sans: Inter, "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+        --serif: "Iowan Old Style", "Noto Serif SC", "Source Han Serif SC", "Songti SC", Georgia, serif;
+        --page: 1180px;
+      }
+      
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5.5rem;
+      }
+      
+      body {
+        margin: 0;
+        overflow-x: clip;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: var(--sans);
+        font-size: 1rem;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      
+      body::selection {
+        color: var(--navy);
+        background: var(--gold-pale);
+      }
+      
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+      
+      h1,
+      h2,
+      h3 {
+        text-wrap: balance;
+      }
+      
+      p {
+        text-wrap: pretty;
+      }
+      
+      .page-shell {
+        width: min(calc(100% - 3rem), var(--page));
+        margin-inline: auto;
+      }
+      
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      
+      .skip-link {
+        position: fixed;
+        z-index: 1000;
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.65rem 1rem;
+        color: var(--navy);
+        background: var(--gold);
+        font-weight: 700;
+        transform: translateY(-180%);
+        transition: transform 180ms ease;
+      }
+      
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+      
+      :focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 4px;
+      }
+      
+      .site-header {
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        left: 0;
+        color: var(--white);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(7, 25, 47, 0.82);
+        backdrop-filter: blur(18px);
+        transition: background 200ms ease, box-shadow 200ms ease;
+      }
+      
+      .site-header.is-scrolled {
+        background: rgba(7, 25, 47, 0.96);
+        box-shadow: 0 8px 30px rgba(0, 7, 16, 0.18);
+      }
+      
+      .header-inner {
+        display: flex;
+        min-height: 5rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      
+      .brand-name {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+      }
+      
+      .brand-name strong {
+        font-family: var(--serif);
+        font-size: 1.05rem;
+        letter-spacing: 0.08em;
+      }
+      
+      .brand-name span {
+        margin-top: 0.2rem;
+        color: rgba(255, 255, 255, 0.62);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+      }
+      
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-left: auto;
+      }
+      
+      .site-nav a {
+        position: relative;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        transition: color 180ms ease;
+      }
+      
+      .site-nav a::after {
+        position: absolute;
+        right: 0;
+        bottom: -0.55rem;
+        left: 0;
+        height: 2px;
+        content: "";
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 180ms ease;
+      }
+      
+      .site-nav a:hover,
+      .site-nav a.is-active {
+        color: var(--white);
+      }
+      
+      .site-nav a:hover::after,
+      .site-nav a.is-active::after {
+        transform: scaleX(1);
+      }
+      
+      .language-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.45rem;
+        margin-left: 1.6rem;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: rgba(255, 255, 255, 0.42);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      
+      .language-switch button {
+        padding: 0.2rem 0.3rem;
+        border: 0;
+        color: rgba(255, 255, 255, 0.54);
+        background: transparent;
+        font-family: var(--sans);
+        font-size: 0.875rem;
+        font-weight: 750;
+        line-height: 1.2;
+        cursor: pointer;
+        transition: color 180ms ease, background 180ms ease;
+      }
+      
+      .language-switch button:hover,
+      .language-switch button[aria-pressed="true"] {
+        color: var(--navy);
+        background: var(--gold);
+      }
+      
+      .menu-toggle {
+        display: none;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        color: inherit;
+        background: transparent;
+        cursor: pointer;
+      }
+      
+      .menu-toggle span[aria-hidden] {
+        display: block;
+        width: 1.15rem;
+        height: 1px;
+        margin: 0.35rem auto;
+        background: currentColor;
+        transition: transform 180ms ease;
+      }
+      
+      .menu-toggle[aria-expanded="true"] span[aria-hidden]:first-of-type {
+        transform: translateY(0.175rem) rotate(45deg);
+      }
+      
+      .menu-toggle[aria-expanded="true"] span[aria-hidden]:last-of-type {
+        transform: translateY(-0.175rem) rotate(-45deg);
+      }
+      
+      .hero {
+        position: relative;
+        overflow: hidden;
+        min-height: 100svh;
+        padding: 10rem 0 3rem;
+        color: var(--white);
+        background:
+          radial-gradient(circle at 72% 28%, rgba(102, 203, 211, 0.16), transparent 28rem),
+          linear-gradient(125deg, var(--navy) 0%, #0b233b 68%, #0b3147 100%);
+      }
+      
+      .hero::before {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        content: "";
+        opacity: 0.17;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 56px 56px;
+        mask-image: linear-gradient(to bottom, black, transparent 88%);
+      }
+      
+      .hero::after {
+        position: absolute;
+        top: 16%;
+        right: -11rem;
+        width: 34rem;
+        height: 34rem;
+        border: 1px solid rgba(242, 166, 90, 0.26);
+        border-radius: 50%;
+        pointer-events: none;
+        content: "";
+        box-shadow:
+          0 0 0 5.5rem rgba(102, 203, 211, 0.035),
+          0 0 0 11rem rgba(242, 166, 90, 0.025);
+      }
+      
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+        gap: clamp(3rem, 8vw, 7.5rem);
+        align-items: center;
+      }
+      
+      .eyebrow,
+      .section-kicker {
+        margin-bottom: 1.3rem;
+        color: var(--cyan);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.19em;
+        text-transform: uppercase;
+      }
+      
+      .hero h1 {
+        margin-bottom: 1.6rem;
+        font-family: var(--serif);
+        font-size: clamp(4.5rem, 10vw, 8.3rem);
+        font-weight: 650;
+        line-height: 0.86;
+        letter-spacing: -0.07em;
+      }
+      
+      .hero h1 span,
+      .hero h1 small {
+        display: block;
+      }
+      
+      .hero h1 small {
+        margin-top: 1.25rem;
+        color: rgba(255, 255, 255, 0.58);
+        font-family: var(--sans);
+        font-size: clamp(1.05rem, 2vw, 1.45rem);
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+      }
+      
+      .hero-role {
+        padding-left: 1rem;
+        margin-bottom: 1.55rem;
+        border-left: 3px solid var(--gold);
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+      
+      .hero-role strong {
+        color: var(--white);
+        font-size: 1.15rem;
+        font-weight: 650;
+      }
+      
+      .hero-summary {
+        max-width: 41rem;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.78);
+        font-family: var(--serif);
+        font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+        line-height: 1.9;
+      }
+      
+      .hero-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+      
+      .hero-links a {
+        display: flex;
+        min-width: 15.5rem;
+        flex-direction: column;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+      }
+      
+      .hero-links a:hover {
+        border-color: var(--gold);
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-2px);
+      }
+      
+      .hero-links span {
+        margin-bottom: 0.1rem;
+        color: var(--gold-pale);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+      }
+      
+      .hero-links strong {
+        overflow-wrap: anywhere;
+        font-size: 0.88rem;
+        font-weight: 550;
+      }
+      
+      .hero-portrait {
+        position: relative;
+        max-width: 22rem;
+        margin-inline: auto;
+      }
+      
+      .hero-portrait::before {
+        position: absolute;
+        z-index: -1;
+        top: -1.2rem;
+        right: -1.2rem;
+        bottom: 3.8rem;
+        left: 1.2rem;
+        content: "";
+        border: 1px solid rgba(242, 166, 90, 0.42);
+      }
+      
+      .portrait-frame {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 3 / 4;
+        background: #dfe9ef;
+        box-shadow: var(--shadow);
+      }
+      
+      .portrait-frame::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+      }
+      
+      .portrait-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 48%;
+      }
+      
+      .portrait-note {
+        display: grid;
+        width: calc(100% - 2.2rem);
+        grid-template-columns: auto 1fr;
+        gap: 0.9rem;
+        align-items: center;
+        padding: 0.9rem 1rem;
+        margin: -1.65rem 0 0 -1rem;
+        color: var(--navy);
+        background: var(--gold);
+        box-shadow: 0 16px 36px rgba(1, 15, 28, 0.3);
+      }
+      
+      .portrait-note > span {
+        color: rgba(7, 25, 47, 0.55);
+        font-family: var(--serif);
+        font-size: 1.7rem;
+      }
+      
+      .portrait-note p {
+        margin: 0;
+        line-height: 1.35;
+      }
+      
+      .portrait-note strong,
+      .portrait-note small {
+        display: block;
+      }
+      
+      .portrait-note strong {
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+      }
+      
+      .portrait-note small {
+        color: rgba(7, 25, 47, 0.62);
+        font-size: 0.72rem;
+      }
+      
+      .hero-facts {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: clamp(3rem, 8vh, 6rem);
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      
+      .hero-facts div {
+        padding: 1.2rem 1.6rem;
+      }
+      
+      .hero-facts div + div {
+        border-left: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      
+      .hero-facts span,
+      .hero-facts strong {
+        display: block;
+      }
+      
+      .hero-facts span {
+        color: var(--gold-pale);
+        font-size: 0.72rem;
+        letter-spacing: 0.11em;
+      }
+      
+      .hero-facts strong {
+        margin-top: 0.15rem;
+        font-size: 0.93rem;
+        font-weight: 550;
+      }
+      
+      .section {
+        padding: clamp(5.5rem, 10vw, 9rem) 0;
+      }
+      
+      .two-column-intro {
+        display: grid;
+        grid-template-columns: 9rem minmax(0, 1fr);
+        gap: clamp(2rem, 7vw, 7rem);
+      }
+      
+      .section-index {
+        padding-top: 0.35rem;
+      }
+      
+      .section-index span {
+        display: block;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--line);
+        color: var(--cyan-dark);
+        font-family: var(--serif);
+        font-size: 2.8rem;
+        line-height: 1;
+      }
+      
+      .section-index p {
+        margin-top: 0.8rem;
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+      }
+      
+      .intro-body {
+        max-width: 54rem;
+      }
+      
+      .intro-body h2,
+      .section-heading h2,
+      .journey-heading h2,
+      .projects-intro h2,
+      .contact h2 {
+        margin-bottom: 1.8rem;
+        font-family: var(--serif);
+        font-size: clamp(2.3rem, 5vw, 4rem);
+        font-weight: 650;
+        line-height: 1.22;
+        letter-spacing: -0.045em;
+      }
+      
+      .intro-body .lead-copy {
+        margin-bottom: 1.4rem;
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: clamp(1.25rem, 2vw, 1.55rem);
+        line-height: 1.9;
+      }
+      
+      .intro-body > p:not(.section-kicker):not(.lead-copy) {
+        max-width: 48rem;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+      
+      .affiliation-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem 2rem;
+        padding-top: 1.7rem;
+        margin-top: 2rem;
+        border-top: 1px solid var(--line);
+      }
+      
+      .affiliation-links a,
+      .text-link {
+        color: var(--ink-soft);
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: color 180ms ease;
+      }
+      
+      .affiliation-links a:hover,
+      .text-link:hover {
+        color: var(--cyan-dark);
+      }
+      
+      .affiliation-links span,
+      .text-link span {
+        display: inline-block;
+        margin-left: 0.15rem;
+        color: var(--gold);
+        transition: transform 180ms ease;
+      }
+      
+      .affiliation-links a:hover span,
+      .text-link:hover span {
+        transform: translate(2px, -2px);
+      }
+      
+      .research {
+        color: var(--white);
+        background: var(--navy);
+      }
+      
+      .section-heading {
+        display: grid;
+        grid-template-columns: 1fr minmax(18rem, 0.62fr);
+        gap: 3rem;
+        align-items: end;
+        padding-bottom: 2.3rem;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .research .section-heading {
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+      
+      .section-heading h2 {
+        margin-bottom: 0;
+      }
+      
+      .section-heading > p {
+        margin-bottom: 0.3rem;
+        color: var(--muted);
+      }
+      
+      .research .section-heading > p {
+        color: rgba(255, 255, 255, 0.63);
+      }
+      
+      .interest-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        margin-top: 3rem;
+        background: rgba(255, 255, 255, 0.16);
+      }
+      
+      .interest-card {
+        min-height: 25rem;
+        padding: 1.6rem;
+        background: #0a2239;
+        transition: background 200ms ease, transform 200ms ease;
+      }
+      
+      .interest-card:hover {
+        position: relative;
+        z-index: 2;
+        background: #0f3049;
+        transform: translateY(-4px);
+      }
+      
+      .interest-card.feature-card {
+        background: #0f344d;
+      }
+      
+      .card-number {
+        color: rgba(255, 255, 255, 0.42);
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+      }
+      
+      .interest-symbol {
+        height: 10rem;
+        padding-top: 1.7rem;
+        color: var(--gold);
+        font-family: var(--serif);
+        font-size: 6rem;
+        font-style: italic;
+        line-height: 1;
+      }
+      
+      .interest-card h3 {
+        margin-bottom: 0.15rem;
+        font-family: var(--serif);
+        font-size: 1.65rem;
+        font-weight: 600;
+      }
+      
+      .interest-card > p {
+        margin-bottom: 1.5rem;
+        color: var(--cyan);
+        font-size: 0.77rem;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+      
+      .card-rule {
+        width: 2.6rem;
+        height: 2px;
+        margin-bottom: 1rem;
+        background: var(--gold);
+      }
+      
+      .interest-card small {
+        color: rgba(255, 255, 255, 0.62);
+        font-size: 0.86rem;
+      }
+      
+      .journey {
+        background:
+          linear-gradient(90deg, rgba(10, 27, 45, 0.038) 1px, transparent 1px) 0 0 / 72px 72px,
+          var(--white);
+      }
+      
+      .journey-layout {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.3fr);
+        gap: clamp(3rem, 8vw, 8rem);
+      }
+      
+      .journey-heading {
+        position: sticky;
+        top: 8rem;
+        align-self: start;
+      }
+      
+      .journey-heading h2 {
+        margin-bottom: 0.8rem;
+      }
+      
+      .journey-heading > p:last-child,
+      .projects-intro > p:last-child {
+        color: var(--muted);
+      }
+      
+      .timeline {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      
+      .timeline li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 10rem minmax(0, 1fr);
+        gap: 1.5rem;
+        padding: 0 0 3rem 2rem;
+        border-left: 1px solid var(--line);
+      }
+      
+      .timeline li::before {
+        position: absolute;
+        top: 0.38rem;
+        left: -0.39rem;
+        width: 0.7rem;
+        height: 0.7rem;
+        content: "";
+        border: 2px solid var(--white);
+        border-radius: 50%;
+        background: var(--cyan-dark);
+        box-shadow: 0 0 0 1px var(--cyan-dark);
+      }
+      
+      .timeline li:last-child {
+        padding-bottom: 0;
+      }
+      
+      .timeline-date {
+        color: var(--cyan-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+      }
+      
+      .timeline-copy h3 {
+        margin-bottom: 0.35rem;
+        font-family: var(--serif);
+        font-size: 1.25rem;
+        font-weight: 650;
+      }
+      
+      .timeline-copy p {
+        margin-bottom: 0.2rem;
+        color: var(--muted);
+      }
+      
+      .timeline-copy small {
+        color: #7e8c98;
+        font-size: 0.78rem;
+      }
+      
+      .publications {
+        background: var(--paper);
+      }
+      
+      .publication-heading {
+        align-items: end;
+      }
+      
+      .publication-legend {
+        font-size: 0.84rem;
+        text-align: right;
+      }
+      
+      .publication-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      
+      .publication-list li {
+        display: grid;
+        grid-template-columns: 6.5rem minmax(0, 1fr);
+        gap: 2rem;
+        padding: 2.15rem 0;
+        border-bottom: 1px solid var(--line);
+        transition: padding 180ms ease, background 180ms ease;
+      }
+      
+      .publication-list li:hover {
+        padding-right: 1.2rem;
+        padding-left: 1.2rem;
+        background: var(--white);
+      }
+      
+      .publication-list time {
+        color: var(--cyan-dark);
+        font-family: var(--serif);
+        font-size: 1.4rem;
+        font-weight: 650;
+      }
+      
+      .publication-list h3 {
+        max-width: 54rem;
+        margin-bottom: 0.55rem;
+        font-family: var(--serif);
+        font-size: clamp(1.05rem, 2vw, 1.3rem);
+        font-weight: 650;
+        line-height: 1.55;
+      }
+      
+      .publication-list h3 a {
+        background-image: linear-gradient(var(--gold), var(--gold));
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        background-size: 0 2px;
+        transition: color 180ms ease, background-size 180ms ease;
+      }
+      
+      .publication-list h3 a:hover {
+        color: var(--cyan-dark);
+        background-size: 100% 2px;
+      }
+      
+      .authors,
+      .venue {
+        margin-bottom: 0.35rem;
+        color: var(--muted);
+        font-size: 0.83rem;
+        line-height: 1.55;
+      }
+      
+      .authors strong {
+        color: var(--ink);
+        font-weight: 750;
+      }
+      
+      .venue {
+        margin-bottom: 0;
+      }
+      
+      .section-action {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 2rem;
+      }
+      
+      .projects {
+        color: var(--white);
+        background: #0b2b43;
+      }
+      
+      .projects-layout {
+        display: grid;
+        grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.28fr);
+        gap: clamp(3rem, 8vw, 8rem);
+      }
+      
+      .projects-intro {
+        position: sticky;
+        top: 8rem;
+        align-self: start;
+      }
+      
+      .projects-intro h2 {
+        margin-bottom: 1rem;
+      }
+      
+      .projects-intro > p:last-child {
+        color: rgba(255, 255, 255, 0.62);
+      }
+      
+      .project-list {
+        counter-reset: project;
+      }
+      
+      .project-list article {
+        position: relative;
+        padding: 0 0 2.6rem 3rem;
+        border-left: 1px solid rgba(255, 255, 255, 0.18);
+        counter-increment: project;
+      }
+      
+      .project-list article + article {
+        padding-top: 2.6rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      
+      .project-list article::before {
+        position: absolute;
+        top: 0;
+        left: -1.05rem;
+        display: grid;
+        width: 2.1rem;
+        height: 2.1rem;
+        place-items: center;
+        content: counter(project, decimal-leading-zero);
+        color: var(--navy);
+        background: var(--gold);
+        font-family: var(--serif);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+      
+      .project-list article + article::before {
+        top: 2.6rem;
+      }
+      
+      .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem 1.2rem;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        color: var(--cyan);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+      }
+      
+      .project-meta code {
+        color: rgba(255, 255, 255, 0.55);
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 0.72rem;
+      }
+      
+      .project-list h3 {
+        margin-bottom: 0.55rem;
+        font-family: var(--serif);
+        font-size: 1.35rem;
+        font-weight: 650;
+      }
+      
+      .project-list p {
+        margin-bottom: 0.7rem;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      
+      .project-list small {
+        color: var(--gold-pale);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+      
+      .teaching {
+        background: var(--white);
+      }
+      
+      .teaching-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        margin-top: 3rem;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+      
+      .course-panel,
+      .award-panel {
+        padding: clamp(1.5rem, 4vw, 3rem);
+        background: var(--paper);
+      }
+      
+      .panel-label {
+        padding-bottom: 1rem;
+        margin-bottom: 0;
+        border-bottom: 2px solid var(--ink);
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+      }
+      
+      .course-panel article {
+        display: grid;
+        grid-template-columns: 2.5rem 1fr;
+        gap: 1rem;
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .course-panel article > span {
+        color: var(--gold);
+        font-family: var(--serif);
+        font-size: 1.45rem;
+      }
+      
+      .course-panel h3 {
+        margin-bottom: 0.1rem;
+        font-family: var(--serif);
+        font-size: 1.35rem;
+      }
+      
+      .course-panel article p {
+        margin-bottom: 0.4rem;
+        color: var(--cyan-dark);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      
+      .course-panel article small {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      
+      .award-panel ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      
+      .award-panel li {
+        display: grid;
+        grid-template-columns: 4rem minmax(0, 1fr);
+        gap: 1.2rem;
+        padding: 1.4rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .award-panel time {
+        color: var(--cyan-dark);
+        font-family: var(--serif);
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+      
+      .award-panel li p {
+        margin-bottom: 0;
+        font-size: 0.92rem;
+        line-height: 1.65;
+      }
+      
+      .contact {
+        padding: clamp(4.5rem, 8vw, 7rem) 0;
+        color: var(--white);
+        background: var(--navy);
+      }
+      
+      .contact-inner {
+        display: grid;
+        grid-template-columns: 1fr minmax(20rem, 0.72fr);
+        gap: 3rem;
+        align-items: end;
+      }
+      
+      .contact h2 {
+        margin-bottom: 0;
+      }
+      
+      .contact-email {
+        display: block;
+        padding: 1.25rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        transition: border-color 180ms ease, padding 180ms ease;
+      }
+      
+      .contact-email:hover {
+        padding-left: 1rem;
+        border-color: var(--gold);
+      }
+      
+      .contact-email span,
+      .contact-email strong {
+        display: block;
+      }
+      
+      .contact-email span {
+        color: var(--gold-pale);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+      }
+      
+      .contact-email strong {
+        overflow-wrap: anywhere;
+        font-size: clamp(1rem, 2vw, 1.22rem);
+        font-weight: 550;
+      }
+      
+      .site-footer {
+        padding: 1.3rem 0;
+        color: rgba(255, 255, 255, 0.52);
+        background: #04111f;
+      }
+      
+      .footer-inner {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .footer-inner p {
+        margin: 0;
+        font-size: 0.72rem;
+      }
+      
+      .js [data-reveal] {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 650ms ease, transform 650ms ease;
+      }
+      
+      .js [data-reveal].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      @media (max-width: 900px) {
+        .hero {
+          padding-top: 8.5rem;
+        }
+      
+        .hero-grid {
+          grid-template-columns: 1fr 17rem;
+          gap: 3rem;
+        }
+      
+        .hero h1 {
+          font-size: clamp(4rem, 10vw, 6.4rem);
+        }
+      
+        .section-heading {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+      
+        .section-heading > p {
+          max-width: 36rem;
+        }
+      
+        .publication-legend {
+          text-align: left;
+        }
+      
+        .journey-layout,
+        .projects-layout {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+      
+        .journey-heading,
+        .projects-intro {
+          position: static;
+        }
+      
+        .contact-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+      
+      @media (max-width: 760px) {
+        .page-shell {
+          width: min(calc(100% - 2rem), var(--page));
+        }
+      
+        .header-inner {
+          min-height: 4.5rem;
+        }
+      
+        .menu-toggle {
+          display: block;
+          margin-left: 0.65rem;
+        }
+      
+        .language-switch {
+          margin-left: auto;
+        }
+      
+        .js .site-nav {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          left: 0;
+          display: none;
+          flex-direction: column;
+          gap: 0;
+          align-items: stretch;
+          padding: 0.6rem 1rem 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(7, 25, 47, 0.98);
+        }
+      
+        .js .site-nav.is-open {
+          display: flex;
+        }
+      
+        .site-nav a {
+          padding: 0.8rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        }
+      
+        .site-nav a::after {
+          display: none;
+        }
+      
+        .hero {
+          min-height: auto;
+          padding: 7.6rem 0 2rem;
+        }
+      
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 3.5rem;
+        }
+      
+        .hero-copy {
+          text-align: left;
+        }
+      
+        .hero h1 {
+          font-size: clamp(4.2rem, 21vw, 6.3rem);
+        }
+      
+        .hero-portrait {
+          width: min(78vw, 20rem);
+        }
+      
+        .hero-facts {
+          grid-template-columns: 1fr;
+          margin-top: 4rem;
+        }
+      
+        .hero-facts div + div {
+          border-top: 1px solid rgba(255, 255, 255, 0.14);
+          border-left: 0;
+        }
+      
+        .two-column-intro {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      
+        .section-index {
+          display: grid;
+          grid-template-columns: 4rem 1fr;
+          gap: 1rem;
+          align-items: end;
+        }
+      
+        .section-index span {
+          padding-bottom: 0.5rem;
+        }
+      
+        .section-index p {
+          padding-bottom: 0.4rem;
+          margin: 0;
+          border-bottom: 1px solid var(--line);
+        }
+      
+        .interest-grid,
+        .teaching-grid {
+          grid-template-columns: 1fr;
+        }
+      
+        .interest-card {
+          min-height: 21rem;
+        }
+      
+        .timeline li {
+          grid-template-columns: 1fr;
+          gap: 0.45rem;
+        }
+      
+        .publication-list li {
+          grid-template-columns: 4rem minmax(0, 1fr);
+          gap: 1rem;
+        }
+      
+        .publication-list li:hover {
+          padding-right: 0;
+          padding-left: 0;
+          background: transparent;
+        }
+      
+        .project-list article {
+          padding-left: 2.3rem;
+        }
+      
+        .footer-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+      }
+      
+      @media (max-width: 430px) {
+        .brand-name span {
+          display: none;
+        }
+      
+        .hero-links,
+        .hero-links a {
+          width: 100%;
+        }
+      
+        .hero-links a {
+          min-width: 0;
+        }
+      
+        .publication-list li {
+          grid-template-columns: 1fr;
+          gap: 0.55rem;
+        }
+      
+        .publication-list time {
+          font-size: 1rem;
+        }
+      
+        .award-panel li {
+          grid-template-columns: 3.6rem minmax(0, 1fr);
+          gap: 0.8rem;
+        }
+      }
+      
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      
+        .js [data-reveal] {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      
+      @media print {
+        .site-header,
+        .skip-link,
+        .menu-toggle {
+          display: none !important;
+        }
+      
+        .hero {
+          min-height: auto;
+          padding-top: 3rem;
+          color: var(--ink);
+          background: var(--white);
+        }
+      
+        .hero::before,
+        .hero::after,
+        .hero-portrait::before {
+          display: none;
+        }
+      
+        .hero h1 small,
+        .hero-role,
+        .hero-role strong,
+        .hero-summary,
+        .hero-facts strong,
+        .hero-links strong {
+          color: var(--ink);
+        }
+      
+        .hero-links span,
+        .hero-facts span {
+          color: var(--muted);
+        }
+      
+        .section,
+        .contact {
+          padding: 3rem 0;
+        }
+      
+        .research,
+        .projects,
+        .contact {
+          color: var(--ink);
+          background: var(--white);
+        }
+      
+        .interest-card,
+        .interest-card.feature-card {
+          color: var(--ink);
+          background: var(--paper);
+        }
+      
+        .interest-card small,
+        .projects-intro > p:last-child,
+        .project-list p {
+          color: var(--muted);
+        }
+      
+        .project-list article {
+          border-color: var(--line);
+        }
+      
+        .publication-list li,
+        .project-list article,
+        .course-panel article,
+        .award-panel li {
+          break-inside: avoid;
+        }
+      
+        .js [data-reveal] {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      
+    </style>
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "章礼明",
+        "alternateName": "Liming Zhang",
+        "jobTitle": "副教授、硕士研究生导师",
+        "email": "mailto:liming.zhang@ahu.edu.cn",
+        "affiliation": {
+          "@type": "CollegeOrUniversity",
+          "name": "安徽大学"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "华东师范大学"
+        },
+        "sameAs": ["https://orcid.org/0000-0002-2498-7490"],
+        "knowsAbout": ["保险精算", "随机控制", "金融数学"]
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+    <header class="site-header" data-header>
+      <div class="header-inner page-shell">
+        <a class="brand" href="#top" aria-label="返回首页">
+          <span class="brand-name">
+            <strong>章礼明</strong>
+            <span lang="en">Liming Zhang</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" aria-label="主要导航" data-nav>
+          <a href="#about">简介</a>
+          <a href="#research">研究</a>
+          <a href="#publications">论文</a>
+          <a href="#projects">项目</a>
+          <a href="#teaching">教学与荣誉</a>
+        </nav>
+
+        <div class="language-switch" role="group" aria-label="语言选择">
+          <button type="button" data-language="zh" aria-pressed="true" aria-label="切换至中文">中</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" data-language="en" aria-pressed="false" aria-label="Switch to English">EN</button>
+        </div>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          data-menu-toggle
+        >
+          <span class="sr-only">打开导航菜单</span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-grid page-shell">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow" lang="en">ACTUARIAL SCIENCE · STOCHASTIC CONTROL</p>
+            <h1 id="hero-title">
+              <span>章礼明</span>
+              <small lang="en">Liming Zhang</small>
+            </h1>
+            <p class="hero-role">
+              安徽大学大数据与统计学院<br />
+              <strong>副教授 · 硕士研究生导师</strong>
+            </p>
+            <p class="hero-summary">
+              研究方向包括保险精算、随机控制与金融数学，重点关注保险、金融和经济领域中的动态优化问题。
+            </p>
+
+            <div class="hero-links" aria-label="联系方式与学术主页">
+              <a href="mailto:liming.zhang@ahu.edu.cn">
+                <span>邮箱</span>
+                <strong>liming.zhang@ahu.edu.cn</strong>
+              </a>
+              <a
+                href="https://orcid.org/0000-0002-2498-7490"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>ORCID</span>
+                <strong>0000-0002-2498-7490</strong>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-portrait" data-reveal>
+            <div class="portrait-frame">
+              <img
+                src="photo.jpg"
+                alt="章礼明的个人照片"
+                width="2272"
+                height="3180"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </div>
+            <div class="portrait-note">
+              <span>01</span>
+              <p>
+                <strong>Hefei, Anhui</strong>
+                <small>P.R. China</small>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-facts page-shell" aria-label="个人概览" data-reveal>
+          <div>
+            <span>当前职务</span>
+            <strong>副教授 · 硕导</strong>
+          </div>
+          <div>
+            <span>博士学位</span>
+            <strong>统计学 · 2021</strong>
+          </div>
+          <div>
+            <span>联合培养</span>
+            <strong>University of Waterloo</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro" id="about" aria-labelledby="about-title">
+        <div class="page-shell two-column-intro">
+          <div class="section-index" data-reveal>
+            <span>01</span>
+            <p>ABOUT</p>
+          </div>
+          <div class="intro-body" data-reveal>
+            <p class="section-kicker">个人简介</p>
+            <h2 id="about-title">保险、金融与经济中的随机控制</h2>
+            <p class="lead-copy">
+              章礼明，现为安徽大学大数据与统计学院副教授、硕士研究生导师。2021年博士毕业于华东师范大学统计学专业，获理学博士学位。
+            </p>
+            <p>
+              2019年至2021年受国家留学基金委资助，赴加拿大滑铁卢大学统计与精算科学系进行博士生联合培养。主要研究方向为保险精算、随机控制与金融数学。
+            </p>
+
+            <div class="affiliation-links">
+              <a href="https://www.ahu.edu.cn/" target="_blank" rel="noopener noreferrer">
+                安徽大学 <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://english.ecnu.edu.cn/" target="_blank" rel="noopener noreferrer">
+                华东师范大学 <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://uwaterloo.ca/" target="_blank" rel="noopener noreferrer">
+                University of Waterloo <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section research" id="research" aria-labelledby="research-title">
+        <div class="page-shell">
+          <div class="section-heading" data-reveal>
+            <div>
+              <p class="section-kicker">Research interests</p>
+              <h2 id="research-title">研究方向</h2>
+            </div>
+            <p>
+              以随机控制与动态优化为方法基础，研究保险、金融和经济领域中的决策问题。
+            </p>
+          </div>
+
+          <div class="interest-grid">
+            <article class="interest-card" data-reveal>
+              <span class="card-number">R / 01</span>
+              <div class="interest-symbol" aria-hidden="true">𝔼</div>
+              <h3>保险精算</h3>
+              <p lang="en">Actuarial Science</p>
+              <div class="card-rule"></div>
+              <small>再保险、投资与风险管理</small>
+            </article>
+            <article class="interest-card feature-card" data-reveal>
+              <span class="card-number">R / 02</span>
+              <div class="interest-symbol" aria-hidden="true">α</div>
+              <h3>随机控制</h3>
+              <p lang="en">Stochastic Control</p>
+              <div class="card-rule"></div>
+              <small>动态优化与均值—方差决策</small>
+            </article>
+            <article class="interest-card" data-reveal>
+              <span class="card-number">R / 03</span>
+              <div class="interest-symbol" aria-hidden="true">∫</div>
+              <h3>金融数学</h3>
+              <p lang="en">Financial Mathematics</p>
+              <div class="card-rule"></div>
+              <small>金融市场中的最优策略</small>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section journey" aria-labelledby="journey-title">
+        <div class="page-shell journey-layout">
+          <div class="journey-heading" data-reveal>
+            <p class="section-kicker">Academic journey</p>
+            <h2 id="journey-title">学术经历</h2>
+            <p>教育经历与任职轨迹</p>
+          </div>
+
+          <ol class="timeline">
+            <li data-reveal>
+              <div class="timeline-date">2026 — 至今</div>
+              <div class="timeline-copy">
+                <h3>副教授、硕士研究生导师</h3>
+                <p>安徽大学 · 大数据与统计学院</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <div class="timeline-date">2022 — 2025</div>
+              <div class="timeline-copy">
+                <h3>讲师、硕士研究生导师</h3>
+                <p>安徽大学 · 大数据与统计学院</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <div class="timeline-date">2021</div>
+              <div class="timeline-copy">
+                <h3>理学博士 · 统计学</h3>
+                <p>华东师范大学</p>
+                <small>导师：汪荣明教授、危佳钦教授</small>
+              </div>
+            </li>
+            <li data-reveal>
+              <div class="timeline-date">2019 — 2021</div>
+              <div class="timeline-copy">
+                <h3>国家公派联合培养博士研究生</h3>
+                <p>加拿大滑铁卢大学 · 统计与精算科学系</p>
+                <small>合作导师：Bin Li 教授</small>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section publications" id="publications" aria-labelledby="publications-title">
+        <div class="page-shell">
+          <div class="section-heading publication-heading" data-reveal>
+            <div>
+              <p class="section-kicker">Selected publications</p>
+              <h2 id="publications-title">代表性论文</h2>
+            </div>
+            <p class="publication-legend">
+              <sup>*</sup> 通讯作者　<sup>†</sup> 指导学生
+            </p>
+          </div>
+
+          <ol class="publication-list">
+            <li data-reveal>
+              <time datetime="2026">2026</time>
+              <div>
+                <p class="authors">Yu Yuan, Ning Wang, <strong>Liming Zhang*</strong></p>
+                <h3>Equilibrium reinsurance price under α-maxmin mean-variance criterion: a view of demand and supply</h3>
+                <p class="venue"><em>ASTIN Bulletin</em> · <span>即将刊出</span></p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2026">2026</time>
+              <div>
+                <p class="authors"><strong>Liming Zhang</strong>, Ping Chen, Qian Zhao*</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.1080/03461238.2025.2571104"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Optimal Investment-benefit for a Collective Defined Contribution Plan with Guaranteed Replacement Ratio</a>
+                </h3>
+                <p class="venue"><em>Scandinavian Actuarial Journal</em> · 2026(6), 584–608</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2025">2025</time>
+              <div>
+                <p class="authors">Hongping Wu<sup>†</sup>, <strong>Liming Zhang*</strong>, Qian Zhao</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.1016/j.cam.2025.116501"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Alpha-robust reinsurance-investment strategy with negative risk dependence between two markets</a>
+                </h3>
+                <p class="venue"><em>Journal of Computational and Applied Mathematics</em> · 463, 116501</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2024">2024</time>
+              <div>
+                <p class="authors"><strong>Liming Zhang</strong>, Hongping Wu<sup>†</sup>, Ning Wang*, Qian Zhao</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.1016/j.irfa.2024.103729"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Equilibrium reinsurance strategies for catastrophe and secondary claims under α-maxmin mean-variance criterion</a>
+                </h3>
+                <p class="venue"><em>International Review of Financial Analysis</em> · 96(B), 103729</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2024">2024</time>
+              <div>
+                <p class="authors">Lin Xu*, Linlin Wang, Hao Wang, <strong>Liming Zhang</strong></p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.3934/math.20241651"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Optimal investment game for two regulated players with regime switching</a>
+                </h3>
+                <p class="venue"><em>AIMS Mathematics</em> · 9(12), 34674–34704</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2022">2022</time>
+              <div>
+                <p class="authors"><strong>Liming Zhang</strong>, Rongming Wang, Jiaqin Wei*</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.3934/jimo.2021140"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Open-Loop Equilibrium Mean-Variance Reinsurance, New Business and Investment Strategies with Constraints</a>
+                </h3>
+                <p class="venue"><em>Journal of Industrial and Management Optimization</em> · 18(6), 3897–3927</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2021">2021</time>
+              <div>
+                <p class="authors"><strong>Liming Zhang</strong>, Bin Li*</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.1016/j.insmatheco.2021.08.004"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Optimal Reinsurance under the α-Maxmin Mean-Variance Criterion</a>
+                </h3>
+                <p class="venue"><em>Insurance: Mathematics and Economics</em> · 101, 225–239</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2020">2020</time>
+              <div>
+                <p class="authors"><strong>Liming Zhang</strong>, Rongming Wang, Jiaqin Wei*</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.1080/24754269.2020.1719356"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Optimal mean-variance reinsurance and investment strategy with constraints in a non-Markovian regime-switching model</a>
+                </h3>
+                <p class="venue"><em>Statistical Theory and Related Fields</em> · 4(2), 214–227</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time datetime="2017">2017</time>
+              <div>
+                <p class="authors">Lin Xu*, <strong>Liming Zhang</strong>, Dingjun Yao</p>
+                <h3>
+                  <a
+                    href="https://doi.org/10.1016/j.insmatheco.2017.02.005"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >Optimal investment and reinsurance for an insurer under markov-modulated financial market</a>
+                </h3>
+                <p class="venue"><em>Insurance: Mathematics and Economics</em> · 74, 7–19</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="section-action" data-reveal>
+            <a
+              class="text-link"
+              href="https://orcid.org/0000-0002-2498-7490"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              在 ORCID 查看学术记录 <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section projects" id="projects" aria-labelledby="projects-title">
+        <div class="page-shell projects-layout">
+          <div class="projects-intro" data-reveal>
+            <p class="section-kicker">Research grants</p>
+            <h2 id="projects-title">主持项目</h2>
+            <p>围绕投资、再保险、系统性风险与动态模糊态度开展研究。</p>
+          </div>
+
+          <div class="project-list">
+            <article data-reveal>
+              <div class="project-meta">
+                <span>2023 — 2025</span>
+                <code>12201006</code>
+              </div>
+              <h3>国家自然科学基金青年项目</h3>
+              <p>α-最大最小期望效用最大化问题及其在投资和再保险中的应用</p>
+              <small>主持</small>
+            </article>
+            <article data-reveal>
+              <div class="project-meta">
+                <span>2026 — 2027</span>
+                <code>AHSKYQ2025D33</code>
+              </div>
+              <h3>安徽省哲学社会科学规划青年项目</h3>
+              <p>基于宏观审慎监管与机器学习的银行盈利与系统性风险平衡优化路径研究</p>
+              <small>主持</small>
+            </article>
+            <article data-reveal>
+              <div class="project-meta">
+                <span>重点项目</span>
+                <code>2024AH050083</code>
+              </div>
+              <h3>安徽省高校科研计划自然科学类重点项目</h3>
+              <p>动态模糊态度 α-最大最小均值—方差最大化问题及其在投资与再保险中的应用</p>
+              <small>主持</small>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section teaching" id="teaching" aria-labelledby="teaching-title">
+        <div class="page-shell">
+          <div class="section-heading" data-reveal>
+            <div>
+              <p class="section-kicker">Teaching & honors</p>
+              <h2 id="teaching-title">教学与荣誉</h2>
+            </div>
+            <p>承担本科课程教学，并指导学生参与学科竞赛与创新训练项目。</p>
+          </div>
+
+          <div class="teaching-grid">
+            <div class="course-panel" data-reveal>
+              <p class="panel-label">主讲课程</p>
+              <article>
+                <span>01</span>
+                <div>
+                  <h3>数学分析</h3>
+                  <p lang="en">Mathematical Analysis</p>
+                  <small>2023、2024、2025、2026 秋季学期</small>
+                </div>
+              </article>
+              <article>
+                <span>02</span>
+                <div>
+                  <h3>统计建模设计</h3>
+                  <p lang="en">Statistical Modeling Design</p>
+                  <small>2023、2024、2025、2026 春季学期</small>
+                </div>
+              </article>
+            </div>
+
+            <div class="award-panel" data-reveal>
+              <p class="panel-label">部分荣誉</p>
+              <ul>
+                <li>
+                  <time datetime="2022-12">2022</time>
+                  <p>博士学位论文获评华东师范大学优秀博士学位论文（前10%）</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" aria-labelledby="contact-title">
+        <div class="page-shell contact-inner" data-reveal>
+          <div>
+            <p class="section-kicker">Contact</p>
+            <h2 id="contact-title">学术交流与合作</h2>
+          </div>
+          <a class="contact-email" href="mailto:liming.zhang@ahu.edu.cn">
+            <span>电子邮箱</span>
+            <strong>liming.zhang@ahu.edu.cn</strong>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-shell footer-inner">
+        <p>© <span data-year>2026</span> 章礼明 · Liming Zhang</p>
+        <p>资料更新于 2026 年 9 月</p>
+      </div>
+    </footer>
+    <script>
+      const header = document.querySelector("[data-header]");
+      const menuToggle = document.querySelector("[data-menu-toggle]");
+      const nav = document.querySelector("[data-nav]");
+      const navLinks = [...document.querySelectorAll(".site-nav a")];
+      const sections = [...document.querySelectorAll("main section[id]")];
+      const revealItems = [...document.querySelectorAll("[data-reveal]")];
+      const languageButtons = [...document.querySelectorAll("[data-language]")];
+      
+      const translations = {
+        "跳到主要内容": "Skip to main content",
+        "简介": "About",
+        "研究": "Research",
+        "论文": "Publications",
+        "项目": "Grants",
+        "教学与荣誉": "Teaching & Honors",
+        "安徽大学大数据与统计学院": "School of Big Data and Statistics, Anhui University",
+        "副教授 · 硕士研究生导师": "Associate Professor · Master's Supervisor",
+        "研究方向包括保险精算、随机控制与金融数学，重点关注保险、金融和经济领域中的动态优化问题。":
+          "My research interests include actuarial science, stochastic control, and financial mathematics, with a focus on dynamic optimization problems in insurance, finance, and economics.",
+        "邮箱": "Email",
+        "当前职务": "Current position",
+        "副教授 · 硕导": "Associate Professor",
+        "博士学位": "Doctorate",
+        "统计学 · 2021": "Statistics · 2021",
+        "联合培养": "Joint training",
+        "个人简介": "Profile",
+        "保险、金融与经济中的随机控制": "Stochastic Control in Insurance, Finance, and Economics",
+        "章礼明，现为安徽大学大数据与统计学院副教授、硕士研究生导师。2021年博士毕业于华东师范大学统计学专业，获理学博士学位。":
+          "Liming Zhang is an Associate Professor and master's supervisor at the School of Big Data and Statistics, Anhui University. He received his Ph.D. in Statistics from East China Normal University in 2021.",
+        "2019年至2021年受国家留学基金委资助，赴加拿大滑铁卢大学统计与精算科学系进行博士生联合培养。主要研究方向为保险精算、随机控制与金融数学。":
+          "From 2019 to 2021, supported by the China Scholarship Council, he was a joint-training doctoral student in the Department of Statistics and Actuarial Science at the University of Waterloo, Canada. His research interests include actuarial science, stochastic control, and financial mathematics.",
+        "安徽大学": "Anhui University",
+        "华东师范大学": "East China Normal University",
+        "研究方向": "Research Interests",
+        "以随机控制与动态优化为方法基础，研究保险、金融和经济领域中的决策问题。":
+          "Using stochastic control and dynamic optimization, I study decision problems arising in insurance, finance, and economics.",
+        "保险精算": "Actuarial Science",
+        "再保险、投资与风险管理": "Reinsurance, investment, and risk management",
+        "随机控制": "Stochastic Control",
+        "动态优化与均值—方差决策": "Dynamic optimization and mean–variance decisions",
+        "金融数学": "Financial Mathematics",
+        "金融市场中的最优策略": "Optimal strategies in financial markets",
+        "学术经历": "Academic Journey",
+        "教育经历与任职轨迹": "Education and appointments",
+        "2026 — 至今": "2026 — Present",
+        "副教授、硕士研究生导师": "Associate Professor · Master's Supervisor",
+        "安徽大学 · 大数据与统计学院": "School of Big Data and Statistics · Anhui University",
+        "讲师、硕士研究生导师": "Assistant Professor · Master's Supervisor",
+        "理学博士 · 统计学": "Ph.D. in Statistics",
+        "导师：汪荣明教授、危佳钦教授": "Supervisors: Prof. Rongming Wang and Prof. Jiaqin Wei",
+        "国家公派联合培养博士研究生": "CSC-Sponsored Visiting Ph.D. Student",
+        "加拿大滑铁卢大学 · 统计与精算科学系":
+          "Department of Statistics and Actuarial Science · University of Waterloo, Canada",
+        "合作导师：Bin Li 教授": "Host supervisor: Prof. Bin Li",
+        "代表性论文": "Selected Publications",
+        "通讯作者": "Corresponding author",
+        "指导学生": "Supervised student",
+        "即将刊出": "Forthcoming",
+        "在 ORCID 查看学术记录": "View academic record on ORCID",
+        "主持项目": "Principal Investigator Projects",
+        "围绕投资、再保险、系统性风险与动态模糊态度开展研究。":
+          "Research projects on investment, reinsurance, systemic risk, and dynamic ambiguity attitudes.",
+        "国家自然科学基金青年项目": "National Natural Science Foundation of China · Youth Project",
+        "α-最大最小期望效用最大化问题及其在投资和再保险中的应用":
+          "α-maxmin expected utility maximization and its applications in investment and reinsurance",
+        "安徽省哲学社会科学规划青年项目":
+          "Anhui Provincial Philosophy and Social Sciences Planning Project · Youth Project",
+        "基于宏观审慎监管与机器学习的银行盈利与系统性风险平衡优化路径研究":
+          "Optimization paths for balancing bank profitability and systemic risk based on macroprudential supervision and machine learning",
+        "安徽省高校科研计划自然科学类重点项目":
+          "Anhui Provincial Higher Education Scientific Research Program (Natural Science) · Key Project",
+        "重点项目": "Key Project",
+        "动态模糊态度 α-最大最小均值—方差最大化问题及其在投资与再保险中的应用":
+          "α-maxmin mean–variance maximization with dynamic ambiguity attitudes and its applications in investment and reinsurance",
+        "主持": "Principal Investigator",
+        "承担本科课程教学，并指导学生参与学科竞赛与创新训练项目。":
+          "Teaching undergraduate courses and supervising students in academic competitions and innovation training projects.",
+        "主讲课程": "Courses",
+        "数学分析": "Mathematical Analysis",
+        "2023、2024、2025、2026 秋季学期": "Fall 2023, 2024, 2025, and 2026",
+        "统计建模设计": "Statistical Modeling Design",
+        "2023、2024、2025、2026 春季学期": "Spring 2023, 2024, 2025, and 2026",
+        "部分荣誉": "Selected Honors",
+        "博士学位论文获评华东师范大学优秀博士学位论文（前10%）":
+          "Outstanding Doctoral Dissertation, East China Normal University (top 10%)",
+        "学术交流与合作": "Academic Exchange and Collaboration",
+        "电子邮箱": "Email",
+        "资料更新于 2026 年 9 月": "Profile updated in September 2026",
+      };
+      
+      const interfaceCopy = {
+        zh: {
+          title: "章礼明 · Liming Zhang | 安徽大学",
+          description:
+            "章礼明，安徽大学大数据与统计学院副教授、硕士研究生导师。研究方向包括保险精算、随机控制与金融数学。",
+          brandLabel: "返回首页",
+          navLabel: "主要导航",
+          languageLabel: "语言选择",
+          contactLabel: "联系方式与学术主页",
+          factsLabel: "个人概览",
+          photoAlt: "章礼明的个人照片",
+          menuOpen: "打开导航菜单",
+          menuClose: "关闭导航菜单",
+        },
+        en: {
+          title: "Liming Zhang | Anhui University",
+          description:
+            "Liming Zhang is an Associate Professor and master's supervisor at Anhui University. His research interests include actuarial science, stochastic control, and financial mathematics.",
+          brandLabel: "Back to top",
+          navLabel: "Main navigation",
+          languageLabel: "Language selection",
+          contactLabel: "Contact and academic profiles",
+          factsLabel: "Profile overview",
+          photoAlt: "Portrait of Liming Zhang",
+          menuOpen: "Open navigation menu",
+          menuClose: "Close navigation menu",
+        },
+      };
+      
+      const normalizeText = (value) => value.trim().replace(/\s+/g, " ");
+      const localizedTextNodes = [];
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (["SCRIPT", "STYLE"].includes(node.parentElement?.tagName)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          const key = normalizeText(node.nodeValue || "");
+          return translations[key] ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        },
+      });
+      
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const value = node.nodeValue || "";
+        const leading = value.match(/^\s*/)?.[0] || "";
+        const trailing = value.match(/\s*$/)?.[0] || "";
+        const zh = normalizeText(value);
+        localizedTextNodes.push({ node, leading, trailing, zh, en: translations[zh] });
+      }
+      
+      let activeLanguage = "zh";
+      
+      const updateMenuLabel = () => {
+        if (!menuToggle) return;
+        const open = menuToggle.getAttribute("aria-expanded") === "true";
+        const label = interfaceCopy[activeLanguage][open ? "menuClose" : "menuOpen"];
+        const labelNode = menuToggle.querySelector(".sr-only");
+        if (labelNode) labelNode.textContent = label;
+      };
+      
+      const setMenuState = (open) => {
+        if (!menuToggle || !nav) return;
+        menuToggle.setAttribute("aria-expanded", String(open));
+        nav.classList.toggle("is-open", open);
+        updateMenuLabel();
+      };
+      
+      const setLanguage = (language, persist = true) => {
+        activeLanguage = language === "en" ? "en" : "zh";
+        const copy = interfaceCopy[activeLanguage];
+      
+        localizedTextNodes.forEach(({ node, leading, trailing, zh, en }) => {
+          node.nodeValue = `${leading}${activeLanguage === "en" ? en : zh}${trailing}`;
+        });
+      
+        document.documentElement.lang = activeLanguage === "en" ? "en" : "zh-CN";
+        document.body.dataset.language = activeLanguage;
+        document.title = copy.title;
+        const description = document.querySelector('meta[name="description"]');
+        if (description) description.setAttribute("content", copy.description);
+      
+        document.querySelector(".brand")?.setAttribute("aria-label", copy.brandLabel);
+        nav?.setAttribute("aria-label", copy.navLabel);
+        document.querySelector(".language-switch")?.setAttribute("aria-label", copy.languageLabel);
+        document.querySelector(".hero-links")?.setAttribute("aria-label", copy.contactLabel);
+        document.querySelector(".hero-facts")?.setAttribute("aria-label", copy.factsLabel);
+        document.querySelector(".portrait-frame img")?.setAttribute("alt", copy.photoAlt);
+      
+        languageButtons.forEach((button) => {
+          const selected = button.dataset.language === activeLanguage;
+          button.setAttribute("aria-pressed", String(selected));
+        });
+      
+        updateMenuLabel();
+      
+        if (persist) {
+          try {
+            localStorage.setItem("profile-language", activeLanguage);
+          } catch {
+            // The language switch still works when storage is unavailable.
+          }
+        }
+      };
+      
+      languageButtons.forEach((button) => {
+        button.addEventListener("click", () => setLanguage(button.dataset.language));
+      });
+      
+      menuToggle?.addEventListener("click", () => {
+        setMenuState(menuToggle.getAttribute("aria-expanded") !== "true");
+      });
+      
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => setMenuState(false));
+      });
+      
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setMenuState(false);
+      });
+      
+      const updateHeader = () => {
+        header?.classList.toggle("is-scrolled", window.scrollY > 18);
+      };
+      
+      updateHeader();
+      window.addEventListener("scroll", updateHeader, { passive: true });
+      
+      if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -7%" },
+        );
+      
+        revealItems.forEach((item) => revealObserver.observe(item));
+      
+        const sectionObserver = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      
+            if (!visible) return;
+            navLinks.forEach((link) => {
+              link.classList.toggle(
+                "is-active",
+                link.getAttribute("href") === `#${visible.target.id}`,
+              );
+            });
+          },
+          { rootMargin: "-25% 0px -62%", threshold: [0.01, 0.2, 0.5] },
+        );
+      
+        sections.forEach((section) => sectionObserver.observe(section));
+      } else {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
+      
+      const year = document.querySelector("[data-year]");
+      if (year) year.textContent = new Date().getFullYear();
+      
+      let savedLanguage = null;
+      try {
+        savedLanguage = localStorage.getItem("profile-language");
+      } catch {
+        // Use the browser language when storage is unavailable.
+      }
+      
+      setLanguage(savedLanguage || "en", false);
+      
+    </script>
   </body>
 </html>
