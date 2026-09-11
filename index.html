@@ -431,7 +431,7 @@
         z-index: -1;
         top: -1.2rem;
         right: -1.2rem;
-        bottom: 3.8rem;
+        bottom: -1.2rem;
         left: 1.2rem;
         content: "";
         border: 1px solid rgba(242, 166, 90, 0.42);
@@ -458,45 +458,6 @@
         height: 100%;
         object-fit: cover;
         object-position: center 48%;
-      }
-      
-      .portrait-note {
-        display: grid;
-        width: calc(100% - 2.2rem);
-        grid-template-columns: auto 1fr;
-        gap: 0.9rem;
-        align-items: center;
-        padding: 0.9rem 1rem;
-        margin: -1.65rem 0 0 -1rem;
-        color: var(--navy);
-        background: var(--gold);
-        box-shadow: 0 16px 36px rgba(1, 15, 28, 0.3);
-      }
-      
-      .portrait-note > span {
-        color: rgba(7, 25, 47, 0.55);
-        font-family: var(--serif);
-        font-size: 1.7rem;
-      }
-      
-      .portrait-note p {
-        margin: 0;
-        line-height: 1.35;
-      }
-      
-      .portrait-note strong,
-      .portrait-note small {
-        display: block;
-      }
-      
-      .portrait-note strong {
-        font-size: 0.85rem;
-        letter-spacing: 0.05em;
-      }
-      
-      .portrait-note small {
-        color: rgba(7, 25, 47, 0.62);
-        font-size: 0.72rem;
       }
       
       .hero-facts {
@@ -548,18 +509,10 @@
         padding-top: 0.35rem;
       }
       
-      .section-index span {
-        display: block;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--line);
-        color: var(--cyan-dark);
-        font-family: var(--serif);
-        font-size: 2.8rem;
-        line-height: 1;
-      }
-      
       .section-index p {
-        margin-top: 0.8rem;
+        padding-bottom: 1rem;
+        margin: 0;
+        border-bottom: 1px solid var(--line);
         color: var(--muted);
         font-size: 0.7rem;
         font-weight: 800;
@@ -1274,14 +1227,7 @@
         }
       
         .section-index {
-          display: grid;
-          grid-template-columns: 4rem 1fr;
-          gap: 1rem;
-          align-items: end;
-        }
-      
-        .section-index span {
-          padding-bottom: 0.5rem;
+          display: block;
         }
       
         .section-index p {
@@ -1553,13 +1499,6 @@
                 fetchpriority="high"
               />
             </div>
-            <div class="portrait-note">
-              <span>01</span>
-              <p>
-                <strong>安徽 · 合肥</strong>
-                <small>中国</small>
-              </p>
-            </div>
           </div>
         </div>
 
@@ -1582,7 +1521,6 @@
       <section class="section intro" id="about" aria-labelledby="about-title">
         <div class="page-shell two-column-intro">
           <div class="section-index" data-reveal>
-            <span>01</span>
             <p>概览</p>
           </div>
           <div class="intro-body" data-reveal>
